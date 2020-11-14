@@ -3,17 +3,19 @@
 
 import Foundation
 
-public func createShader(type: String) {
-  print(type)
-  let fileName = "Msc_Project/shaders/sample_vs"
+public func createShader(shaderType: String, name: String) {
+  let fileName = "Msc_Project/Sources/Shaders/" + name
   let documentDirectoryUrl = try! FileManager.default.url(
     for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true
   )
-  let fileUrl = documentDirectoryUrl.appendingPathComponent(fileName).appendingPathExtension("vs")
-  // prints the file path
-  print("File path \(fileUrl.path)")
-  //data to write in file.
-  let stringData = "Hello Tutorials Point"
+  // TODO: try catch shader type
+  let extensionName = shaderType.prefix(1) + "s"
+
+  let fileUrl = documentDirectoryUrl.appendingPathComponent(fileName).appendingPathExtension(String(extensionName))
+  // could also check if type is geometry
+
+  // data to write in file
+  let stringData = "#version 330 core \n"
   do {
     try stringData.write(to: fileUrl, atomically: true, encoding: String.Encoding.utf8)
   } catch let error as NSError {
@@ -29,5 +31,5 @@ public func createShader(type: String) {
 }
 
 
-
-print(createShader(type: "vertex"))
+// shaderType can be: "vertex" or "fragment".
+print(createShader(shaderType: "vertex", name: "sample"))
