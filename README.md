@@ -1,4 +1,4 @@
-# Msc_Project
+# Working with shaders
 
 The idea of this project is to facilitate the creation of graphics programs (shaders) using a Swift oriented DSL and type abstraction, then using an encoder to translate these Swift shaders into GLSL shaders.
 
