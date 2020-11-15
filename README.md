@@ -23,10 +23,12 @@ git clone https://github.com/sardinhapatrick/Msc_Project.git
 
 ### Usage
 
-To run the Swift program:
+To run the main.swift program:
 
 ```bash
-swift [name_file].swift
+swift build
+
+swift run
 
 ```
 
