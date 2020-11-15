@@ -53,10 +53,3 @@ func createGLSLShader(shaderType: String, name: String) {
   }
   print (readFile)
 }
-
-
-// let v = Vector3()
-//
-// var vec1: Vector3 = Vector3(x: 1, y:2, z:3)
-// var vec2: Vector3 = Vector3(x: 10, y:20, z:30)
-// print(vec1.add(v1:vec1, v2:vec2))
