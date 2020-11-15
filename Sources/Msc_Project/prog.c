@@ -54,7 +54,7 @@ int main()
 
     // build and compile our shader program
     // ------------------------------------
-    Shader ourShader("Shaders/test.vs", "Shaders/test.fs"); // you can name your shader files however you like
+    Shader ourShader("Shaders/test.vs", "Shaders/test.fs");
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------

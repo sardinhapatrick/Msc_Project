@@ -1,4 +1,4 @@
-#version 330 core
+//version 330 core
 
 let aPos: Vector3 = Vector3(x: ,y: ,z: )
 let aColor Vector3 = Vector3(x: ,y:, z: )

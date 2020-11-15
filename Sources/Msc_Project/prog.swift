@@ -1,14 +1,10 @@
-// To run the code:
-// swift prog.swift
-
 import Foundation
 
 // takes a swift shader file (vertex or fragment), read it in order to parse it
 // and translate it into a GLSL shader
-
-public func readSwiftShader(shaderType: String, name: String, ext: String) -> String {
+func readSwiftShader(shaderType: String, name: String, ext: String) -> String {
   // interface to write shaders with abstract types in Swift: notepad for now
-  let fileName = "Msc_Project/Sources/WWSKit/Shaders/" + name + "." + ext
+  let fileName = "Msc_Project/Sources/Msc_Project/Shaders/" + name + "." + ext
   let documentDirectoryUrl = try! FileManager.default.url(
     for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true
   )
@@ -19,11 +15,11 @@ public func readSwiftShader(shaderType: String, name: String, ext: String) -> St
   } catch let error as NSError {
     print(error)
   }
-  // readFile -> String
+  print(readFile) // -> String
   return readFile
 }
 
-public func swiftToGLSL(swiftShader: String) -> String {
+func swiftToGLSL(swiftShader: String) -> String {
   // parser + AST
   // return a GLSL shader used by createGLSLShader to generate a shader file used
   // in the main render loop in the C-like program
@@ -32,7 +28,7 @@ public func swiftToGLSL(swiftShader: String) -> String {
 
 // create new files .vs or .fs which will be used in the main GLSL program
 // these shaders are understandable for the OpenGL pipeline
-public func createGLSLShader(shaderType: String, name: String) {
+func createGLSLShader(shaderType: String, name: String) {
   let fileName = "Msc_Project/Sources/WWSKit/Shaders/" + name
   let documentDirectoryUrl = try! FileManager.default.url(
     for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true
@@ -58,11 +54,6 @@ public func createGLSLShader(shaderType: String, name: String) {
   print (readFile)
 }
 
-
-// shaderType can be: "vertex" or "fragment".
-print(createGLSLShader(shaderType: "vertex", name: "sample2"))
-print("------------")
-print(readSwiftShader(shaderType: "vertex", name: "sample", ext: "swift"))
 
 // let v = Vector3()
 //

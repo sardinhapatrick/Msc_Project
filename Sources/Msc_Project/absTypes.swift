@@ -1,5 +1,3 @@
-import Foundation
-
 // definition of new abstract types as struct
 struct Vector3 {
     var x: Double
@@ -10,8 +8,8 @@ struct Vector3 {
         return (v1.x + v2.x, v1.y + v2.y, v1.z+v2.z)
     }
 
-    func cat(v1: Vector3, a: Double) -> (Double, Double, Double, Double) {
-        return (v1.x, v1.y, v1.z, a)
+    func cat(v1: Vector3, d: Double) -> (Double, Double, Double, Double) {
+        return (v1.x, v1.y, v1.z, d)
     }
 }
 
@@ -31,10 +29,8 @@ struct Vector4 {
 }
 
 struct Color {
-    var rgb: Vector3
-    var alpha: Double?
+    var r: Double
+    var g: Double
+    var b: Double
+    var a: Double?
 }
-
-var vec1: Vector3 = Vector3(x: 1, y:2, z:3)
-var vec2: Vector3 = Vector3(x: 10, y:20, z:30)
-print(vec1.add(v1:vec1, v2:vec2))
