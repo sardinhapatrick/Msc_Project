@@ -1,10 +1,10 @@
-#version 330 core
+//version 330 core
 
-let aPos: Vector3 = Vector3(x: ,y: ,z: )
-let aColor: Vector3 = Vector3(x: ,y:, z: )
+let (aPos, loc_aPos): (Vector3?, Int) = (nil, 0)
+let (aColor, loc_aColor): (Color?, Int) = (nil, 1)
 
-func main() -> (Vector3, Vector3) {
-     let gl_Position: Vector3 = cat(aPos, 1.0)
-     let ourColor: Vector3 = aColor
+func main() -> (Vector4, Color) {
+     let gl_Position: Vector4 = cat(aPos, 1.0)
+     let ourColor: Color = aColor
      return (gl_Position, ourColor)
 }
