@@ -1,8 +1,8 @@
-#version 330 core
+//version 330 core
 
 let ourColor: Color
 
-func main() -> (Vector4) {
-     let FragColor: Vector4 = cat(ourColor, 1.0)
+func main() -> (Color) {
+     let FragColor: Color = (ourColor, 1.0)
      return FragColor
 }

@@ -4,10 +4,11 @@ import Foundation
 // and translate it into a GLSL shader
 func readSwiftShader(shaderType: String, name: String, ext: String) -> String {
   // interface to write shaders with abstract types in Swift: notepad for now
-  let fileName = "Msc_Project/Sources/Msc_Project/Shaders/" + name + "." + ext
   let documentDirectoryUrl = try! FileManager.default.url(
     for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true
   )
+  let fileName = "Msc_Project/Sources/Msc_Project/Shaders/" + name + "." + ext
+  //let fileName = "Msc_Project/Sources/Msc_Project/main.swift"
   let fileUrl = documentDirectoryUrl.appendingPathComponent(fileName)
   var readFile = ""
   do {
@@ -15,7 +16,8 @@ func readSwiftShader(shaderType: String, name: String, ext: String) -> String {
   } catch let error as NSError {
     print(error)
   }
-  print(readFile) // -> String
+  print(readFile)
+  print(parse(str: readFile)) // -> String
   return readFile
 }
 
