@@ -48,4 +48,4 @@ And then run the executable:
 
 ## License
 
-This project does not have a license yet.
+This project is under an MIT license.
