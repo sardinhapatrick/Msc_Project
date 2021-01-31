@@ -43,6 +43,7 @@ class SystemSolar {
 
     // Directly call when the component is created
     func subTick(interval: UInt32) {
+        self.callTick = true
         while(callTick) {
             log(str: "\n\n\(self.state)\n")
             self.tick()
