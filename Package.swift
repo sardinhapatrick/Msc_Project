@@ -15,7 +15,7 @@ let package = Package(
         .target(
             name: "Msc_Project",
             dependencies: [],
-            resources: [.process("./prog"), .process("./glad.c"), .process("./prog.c")]
+            resources: [.process("./prog"), .process("./glad.c"), .process("./prog.c"), .process("shader.vs"), .process("shader.fs")]
           ),
         .testTarget(
             name: "Msc_ProjectTests",
