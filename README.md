@@ -1,6 +1,6 @@
 # Working with shaders
 
-The idea of this project is to facilitate the creation of graphics programs (shaders) using a Swift oriented DSL and type abstraction, then using an encoder to translate these Swift shaders into GLSL shaders.
+The idea of this project is to facilitate the creation of code for graphical programming using a new language named PATL. This is a Swift oriented DSL based on a completely declarative language: React. PATL is a declarative overlay to Rendery and give us a higher level of abstraction for graphical programming. Once a PATL program is built, it can be transformed into a sequence of Rendery statements in order to obtain the corresponding graphical representation.
 
 ## Getting Started
 
