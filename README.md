@@ -32,20 +32,6 @@ swift run
 
 ```
 
-To run the main GLSL program you must use g++ as below:
-
-```bash
-g++ -pthread -o [name_file] [name_file.c] glad.c -lglfw -lGLU -lGL -lXrandr -lXxf86vm -lXi -lXinerama -lX11 -lrt -ldl
-
-```
-
-And then run the executable:
-
-```bash
-./[name_file]
-
-```
-
 ## License
 
 This project is under an MIT license.
