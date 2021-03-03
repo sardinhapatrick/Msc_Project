@@ -1,0 +1,43 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Rendery",
+        "repositoryURL": "https://github.com/sardinhapatrick/Rendery.git",
+        "state": {
+          "branch": "impRendery",
+          "revision": "e2040bee7cbd751093ee57469fd79ae7bf8f19c7",
+          "version": null
+        }
+      },
+      {
+        "package": "swift-numerics",
+        "repositoryURL": "https://github.com/apple/swift-numerics",
+        "state": {
+          "branch": null,
+          "revision": "6583ac70c326c3ee080c1d42d9ca3361dca816cd",
+          "version": "0.1.0"
+        }
+      },
+      {
+        "package": "GL",
+        "repositoryURL": "https://github.com/kelvin13/swift-opengl.git",
+        "state": {
+          "branch": "master",
+          "revision": "aa8ed1bee08b87c5e200f7b42d12e491542b45dd",
+          "version": null
+        }
+      },
+      {
+        "package": "XML",
+        "repositoryURL": "https://github.com/kelvin13/swiftxml",
+        "state": {
+          "branch": "master",
+          "revision": "91ae89c58e5a478191c27d44c31bd9bae281fefd",
+          "version": null
+        }
+      }
+    ]
+  },
+  "version": 1
+}
