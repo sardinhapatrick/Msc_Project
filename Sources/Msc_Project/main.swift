@@ -1,4 +1,5 @@
 import PATL
+import class Rendery.Scene
 import Foundation
 import Glibc
 
@@ -24,20 +25,27 @@ class Sphere {
     }
 }
 
-class SystemSolar_ {
-    var state: Dictionary<String, Any> = [:]
-    var callTick: Bool = true
+class SystemSolar_ : Scene {
 
-    init() {
-        self.state =  ["solarCoord": Coord(polar: (0, Angles(deg: 0))), "solarRevo": 0.0, "solarRadius": 696340.0,
-                       "mercuryCoord": Coord(polar: (58, Angles(deg: 0))), "mercuryRevo": 88.0, "mercuryRadius": 2440.0,
-                       "venusCoord": Coord(polar: (108, Angles(deg: 0))), "venusRevo": 225.0, "venusRadius": 6050.0,
-                       "earthCoord": Coord(polar: (150, Angles(deg: 0))), "earthRevo": 365.0, "earthRadius": 6370.0,
-                       "marsCoord": Coord(polar: (228, Angles(deg: 0))), "marsRevo": 687.0, "marsRadius": 3390.0,
-                       "jupiterCoord": Coord(polar: (779, Angles(deg: 0))), "jupiterRevo": 4380.0, "jupiterRadius": 69910.0,
-                       "saturnCoord": Coord(polar: (1434, Angles(deg: 0))), "saturnRevo": 10585.0, "saturnRadius": 58230.0,
-                       "uranusCoord": Coord(polar: (2871, Angles(deg: 0))), "uranusRevo": 30660.0, "uranusRadius": 25360.0,
-                       "neptuneCoord": Coord(polar: (4495, Angles(deg: 0))), "neptuneRevo": 60225.0, "neptuneRadius": 24600.0
+    var state: [String: [String: Any]] = [:]
+    var callTick: Bool = true
+    let solarRadius: Double = 5.0
+
+    public override init() {
+        super.init()
+
+        backgroundColor = "#000000"
+
+        // planet = [name, radius, solar_dist, polar_angle, revolution, texture_path]
+
+        self.state = ["obj0": ["name": "Mercury", "radius": 11440.0, "coord": Coord(polar: (35.791, Angles(deg: 0.0))), "revo": 88.0, "tex": "/img/mercury_tex.jpeg"],
+                      "obj1": ["name": "Venus", "radius": 15052.0, "coord": Coord(polar: (45.82, Angles(deg: 0.0))), "revo": 225.0, "tex": "/img/venus_tex.jpg"],
+                      "obj2": ["name": "Earth", "radius": 16371.0, "coord": Coord(polar: (64.96, Angles(deg: 0.0))), "revo": 365.0, "tex": "/img/earth_tex.jpg"],
+                      "obj3": ["name": "Mars", "radius": 12390.0, "coord": Coord(polar: (72.79, Angles(deg: 0.0))), "revo": 687.0, "tex": "/img/mars_tex.jpg"],
+                      "obj4": ["name": "Jupiter", "radius": 69911.0, "coord": Coord(polar: (97.85, Angles(deg: 0.0))), "revo": 1380.0, "tex": "/img/jupiter_tex.jpg"],
+                      "obj5": ["name": "Saturn", "radius": 58232.0, "coord": Coord(polar: (143.40, Angles(deg: 0.0))), "revo": 3585.0, "tex": "/img/saturn_tex.jpg"],
+                      "obj6": ["name": "Uranus", "radius": 25362.0, "coord": Coord(polar: (227.10, Angles(deg: 0.0))), "revo": 4660.0, "tex": "/img/uranus_tex.jpg"],
+                      "obj7": ["name": "Neptune", "radius": 24622.0, "coord": Coord(polar: (350.50, Angles(deg: 0.0))), "revo": 6225.0, "tex": "/img/neptune_tex.jpg"],
                      ]
         self.subTick(interval: 1)
     }
@@ -64,50 +72,50 @@ class SystemSolar_ {
 
     func tick() {
       self.state = updateState(currentState: state,
-                               nextState: ["mercuryCoord": Coord(polar: ((state["mercuryCoord"] as! Coord).polar!.0,
-                                                                          Angles(deg: self.updatePlanetPos(currentAngle: (state["mercuryCoord"] as! Coord).polar!.1,
-                                                                                                          revolution: (state["mercuryRevo"] as! Double))))),
-                                           "venusCoord": Coord(polar: ((state["venusCoord"] as! Coord).polar!.0,
-                                                                        Angles(deg: self.updatePlanetPos(currentAngle: (state["venusCoord"] as! Coord).polar!.1,
-                                                                                                        revolution: (state["venusRevo"] as! Double))))),
-                                           "earthCoord": Coord(polar: ((state["earthCoord"] as! Coord).polar!.0,
-                                                                        Angles(deg: self.updatePlanetPos(currentAngle: (state["earthCoord"] as! Coord).polar!.1,
-                                                                                                        revolution: (state["earthRevo"] as! Double))))),
-                                           "marsCoord": Coord(polar: ((state["marsCoord"] as! Coord).polar!.0,
-                                                                       Angles(deg: self.updatePlanetPos(currentAngle: (state["marsCoord"] as! Coord).polar!.1,
-                                                                                                       revolution: (state["marsRevo"] as! Double))))),
-                                           "jupiterCoord": Coord(polar: ((state["jupiterCoord"] as! Coord).polar!.0,
-                                                                          Angles(deg: self.updatePlanetPos(currentAngle: (state["jupiterCoord"] as! Coord).polar!.1,
-                                                                                                          revolution: (state["jupiterRevo"] as! Double))))),
-                                           "saturnCoord": Coord(polar: ((state["saturnCoord"] as! Coord).polar!.0,
-                                                                         Angles(deg: self.updatePlanetPos(currentAngle: (state["saturnCoord"] as! Coord).polar!.1,
-                                                                                                         revolution: (state["saturnRevo"] as! Double))))),
-                                           "uranusCoord": Coord(polar: ((state["uranusCoord"] as! Coord).polar!.0,
-                                                                         Angles(deg: self.updatePlanetPos(currentAngle: (state["uranusCoord"] as! Coord).polar!.1,
-                                                                                                         revolution: (state["uranusRevo"] as! Double))))),
-                                           "neptuneCoord": Coord(polar: ((state["neptuneCoord"] as! Coord).polar!.0,
-                                                                          Angles(deg: self.updatePlanetPos(currentAngle: (state["neptuneCoord"] as! Coord).polar!.1,
-                                                                                                          revolution: (state["neptuneRevo"] as! Double))))),
-                                    ]
+                               nextState: ["obj0": ["coord": Coord(polar: ((state["obj0"]!["coord"] as! Coord).polar!.0,
+                                                                          Angles(deg: self.updatePlanetPos(currentAngle: (state["obj0"]!["coord"] as! Coord).polar!.1,
+                                                                                                          revolution: (state["obj0"]!["revo"] as! Double)))))],
+                                           "obj1": ["coord": Coord(polar: ((state["obj1"]!["coord"] as! Coord).polar!.0,
+                                                                           Angles(deg: self.updatePlanetPos(currentAngle: (state["obj1"]!["coord"] as! Coord).polar!.1,
+                                                                                                          revolution: (state["obj1"]!["revo"] as! Double)))))],
+                                           "obj2": ["coord": Coord(polar: ((state["obj2"]!["coord"] as! Coord).polar!.0,
+                                                                           Angles(deg: self.updatePlanetPos(currentAngle: (state["obj2"]!["coord"] as! Coord).polar!.1,
+                                                                                                          revolution: (state["obj2"]!["revo"] as! Double)))))],
+                                           "obj3": ["coord": Coord(polar: ((state["obj3"]!["coord"] as! Coord).polar!.0,
+                                                                           Angles(deg: self.updatePlanetPos(currentAngle: (state["obj3"]!["coord"] as! Coord).polar!.1,
+                                                                                                          revolution: (state["obj3"]!["revo"] as! Double)))))],
+                                           "obj4": ["coord": Coord(polar: ((state["obj4"]!["coord"] as! Coord).polar!.0,
+                                                                           Angles(deg: self.updatePlanetPos(currentAngle: (state["obj4"]!["coord"] as! Coord).polar!.1,
+                                                                                                          revolution: (state["obj4"]!["revo"] as! Double)))))],
+                                           "obj5": ["coord": Coord(polar: ((state["obj5"]!["coord"] as! Coord).polar!.0,
+                                                                           Angles(deg: self.updatePlanetPos(currentAngle: (state["obj5"]!["coord"] as! Coord).polar!.1,
+                                                                                                          revolution: (state["obj5"]!["revo"] as! Double)))))],
+                                           "obj6": ["coord": Coord(polar: ((state["obj6"]!["coord"] as! Coord).polar!.0,
+                                                                           Angles(deg: self.updatePlanetPos(currentAngle: (state["obj6"]!["coord"] as! Coord).polar!.1,
+                                                                                                          revolution: (state["obj6"]!["revo"] as! Double)))))],
+                                           "obj7": ["coord": Coord(polar: ((state["obj7"]!["coord"] as! Coord).polar!.0,
+                                                                           Angles(deg: self.updatePlanetPos(currentAngle: (state["obj7"]!["coord"] as! Coord).polar!.1,
+                                                                                                          revolution: (state["obj7"]!["revo"] as! Double)))))]
+                                        ]
                         )
       let _ = self.render()
     }
 
-    func render() -> (Sphere, Sphere, Sphere, Sphere, Sphere, Sphere, Sphere, Sphere, Sphere) {
+    func render() -> (Sphere, Sphere, Sphere, Sphere, Sphere, Sphere, Sphere, Sphere) {
       return (
-        Sphere(name: "Solar", pos: (state["solarCoord"] as! Coord), props: [state["solarRadius"]]),
-        Sphere(name: "Mercury", pos: (state["mercuryCoord"] as! Coord), props: [state["mercuryRadius"]]),
-        Sphere(name: "Venus", pos: (state["venusCoord"] as! Coord), props: [state["venusRadius"]]),
-        Sphere(name: "Earth", pos: (state["earthCoord"] as! Coord), props: [state["earthRadius"]]),
-        Sphere(name: "Mars", pos: (state["marsCoord"] as! Coord), props: [state["marsRadius"]]),
-        Sphere(name: "Jupiter", pos: (state["jupiterCoord"] as! Coord), props: [state["jupiterRadius"]]),
-        Sphere(name: "Saturn", pos: (state["saturnCoord"] as! Coord), props: [state["saturnRadius"]]),
-        Sphere(name: "Uranus", pos: (state["uranusCoord"] as! Coord), props: [state["uranusRadius"]]),
-        Sphere(name: "Neptune", pos: (state["neptuneCoord"] as! Coord), props: [state["neptuneRadius"]])
+        //Sphere(name: "Solar", pos: (state["solarCoord"] as! Coord), props: [state["solarRadius"]]),
+        Sphere(name: "Mercury", pos: (state["obj0"]!["coord"] as! Coord), props: [state["obj0"]!["radius"]]),
+        Sphere(name: "Venus", pos: (state["obj1"]!["coord"] as! Coord), props: [state["obj1"]!["radius"]]),
+        Sphere(name: "Earth", pos: (state["obj2"]!["coord"] as! Coord), props: [state["obj2"]!["radius"]]),
+        Sphere(name: "Mars", pos: (state["obj3"]!["coord"] as! Coord), props: [state["obj3"]!["radius"]]),
+        Sphere(name: "Jupiter", pos: (state["obj4"]!["coord"] as! Coord), props: [state["obj4"]!["radius"]]),
+        Sphere(name: "Saturn", pos: (state["obj5"]!["coord"] as! Coord), props: [state["obj5"]!["radius"]]),
+        Sphere(name: "Uranus", pos: (state["obj6"]!["coord"] as! Coord), props: [state["obj6"]!["radius"]]),
+        Sphere(name: "Neptune", pos: (state["obj7"]!["coord"] as! Coord), props: [state["obj7"]!["radius"]])
       )
     }
 }
 
 
 // Entry: Call the highest component
-let _ = sampleScene(name: "Solar System", scene: SystemSolar())
+let _ = sampleScene(name: "Solar System", scene: SystemSolar_())

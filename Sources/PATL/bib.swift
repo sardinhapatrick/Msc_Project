@@ -65,10 +65,13 @@ public func log(str: String) {
     print(str)
 }
 
-public func updateState(currentState: [String: Any], nextState: [String: Any]) -> [String: Any] {
+public func updateState(currentState: [String: [String: Any]], nextState: [String: [String: Any]]) -> [String: [String: Any]] {
     var tmpState = currentState
-    for (key, _) in nextState {
-        tmpState.updateValue(nextState[key]!, forKey: key)
+    for (outerKey, _) in nextState {
+        for (innerKey, _) in nextState[outerKey]! {
+            tmpState[outerKey]![innerKey]! = nextState[outerKey]![innerKey]!
+            //tmpState[outerKey]![innerKey]!.updateValue(nextState[outerKey]!, forKey: innerKey)
+        }
     }
     return tmpState
 }
