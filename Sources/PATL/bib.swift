@@ -2,6 +2,9 @@ import Rendery
 import Foundation
 import Glibc
 
+
+///////////////////////////////////////////////////////////////////////////////
+/*
 // structure declaration
 
 public struct Mesh {
@@ -79,6 +82,26 @@ public func updateState(currentState: [String: [String: Any]], nextState: [Strin
 
 /// ---- --- -- - -- - - --
 
+// public class Sol: Node {
+//   public init(scene: Scene) {
+//     // Create a sphere for the solar
+//       let solar = root.createChild()
+//       print(solar)
+//       solar.name = "Solar"
+//       solar.model = Model(
+//         meshes: [.sphere(segments: 100, rings: 100, radius: 5.0)],
+//         materials: [Material()])
+//       // Apply a texture to the solar
+//       solar.model?.materials[0].diffuse = .texture(ImageTexture(image: Image(contentsOfFile: "Sources"+"/img/pink_tex.jpg")!, wrapMethod: .repeat))
+//       // Modify its color
+//       //solar.model?.materials[0].multiply = .color(Color(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5))
+//       solar.translation.x = 0.0
+//       solar.translation.y = 0.0
+//       solar.translation.z = 0.0
+//   }
+//
+// }
+
 
 public class SystemSolar: Scene {
 
@@ -100,8 +123,11 @@ public class SystemSolar: Scene {
                       ["Neptune", sizePlanet(s: solarRadius, p: 24622), distPlanet(s: solarRadius, d: 350.50), 0.0, 6225.0, "/img/neptune_tex.jpg"]
                      ]
 
-    // Create a sphere for the solar
+    // // Create a sphere for the solar
+    //let solar = root.createChild() // solar is type Node
+    //let s = Node().init(scene: self)
     let solar = root.createChild()
+    //print("->", type(of:solar))
     solar.name = "Solar"
     solar.model = Model(
       meshes: [.sphere(segments: 100, rings: 100, radius: solarRadius)],
@@ -200,7 +226,7 @@ public class SystemSolar: Scene {
 }
 
 // Call sampleScene() to build the entire scene
-public func sampleScene(name: String, scene: Scene) {
+public func createScene(name: String, scene: Scene) {
 
   // Initialize Rendery's engine.
   guard let window = AppContext.shared.initialize(width: 1500, height: 800, title: name)
@@ -208,6 +234,102 @@ public func sampleScene(name: String, scene: Scene) {
   //defer { AppContext.shared.clear() } #TODO: bug under linux
   // Create the game scene and present it in the window's viewport.
   let scene = scene
+  window.viewports.first?.present(scene: scene)
+
+  // Run the rendering loop.
+  AppContext.shared.targetFrameRate = 60
+  AppContext.shared.render()
+}
+*/
+///////////////////////////////////////////////////////////////////////////////
+
+// Build the Scene related to ComponentTopLevel
+open class ComponentTopLevel: Scene {
+  public override init() {
+    super.init()
+    // Define the camera which gives us a view to the scene
+    let cameraNode = root.createChild()
+    cameraNode.name = "Camera"
+    cameraNode.camera = Camera()
+    cameraNode.camera?.farDistance = 5000.0
+    cameraNode.translation = Vector3(x: 750.0, y: 65, z: 0.0)
+    cameraNode.constraints.append(LookAtConstraint(target: root))
+  }
+
+  // Set the background color of the scene
+  public func setBackgroundColor(colHexa: Color) -> Color {
+    backgroundColor = colHexa
+    return backgroundColor!
+  }
+
+  public func createSphere(name: String, seg: Int, rin: Int, rad: Double, tex: String, x: Double, y: Double, z: Double) {
+    let child = root.createChild()
+    child.name = name
+    child.model = Model(
+      meshes: [.sphere(segments: seg, rings: rin, radius: rad)],
+      materials: [Material()])
+    // Apply a texture to the solar
+    child.model?.materials[0].diffuse = .texture(ImageTexture(image: Image(contentsOfFile: "Sources"+tex)!, wrapMethod: .repeat))
+    // Modify its color
+    //child.model?.materials[0].multiply = .color(Color(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5))
+    child.translation.x = x
+    child.translation.y = y
+    child.translation.z = z
+  }
+
+}
+
+
+public struct Angles {
+    public var deg: Double?
+    public var rad: Double?
+
+    public init(deg: Double? = nil, rad: Double? = nil) {
+        self.deg = deg
+        self.rad = rad
+    }
+
+    public func degToRad() -> Double {
+        return (deg! * (Double.pi/180))
+    }
+
+    public func radToDeg() -> Double {
+        return rad! * (180/Double.pi)
+    }
+}
+
+public struct Coord {
+    public var polar: (Double, Angles)?
+    public var cart: (Double, Double)?
+
+    public init(polar: (Double, Angles)? = nil, cart: (Double, Double)? = nil) {
+        self.polar = polar
+        self.cart = cart
+    }
+
+    public func polarToCart() -> (Double, Double) {
+        let x = polar!.0 * cos(polar!.1.deg!)
+        let y = polar!.0 * sin(polar!.1.deg!)
+        return (x,y)
+    }
+
+    public func cartToPolar() -> (Double, Angles) {
+        let r = sqrt(pow(cart!.0, 2.0) + pow(cart!.1, 2.0))
+        let t = Angles(deg: atan(cart!.1 / cart!.0))
+        return (r,t)
+    }
+
+}
+
+// First function to call:
+public func createScene(name: String, compTL: Scene) {
+  // Initialize Rendery's engine.
+  guard let window = AppContext.shared.initialize(width: 1500, height: 800, title: name)
+    else { fatalError() }
+  //defer { AppContext.shared.clear() } #TODO: bug under linux
+
+  // Create the game scene and present it in the window's viewport.
+  let scene = compTL
   window.viewports.first?.present(scene: scene)
 
   // Run the rendering loop.

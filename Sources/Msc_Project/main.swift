@@ -1,8 +1,11 @@
 import PATL
-import class Rendery.Scene
 import Foundation
 import Glibc
 
+
+//////////////////////////////////////////////////////////////////////////////
+
+/*
 class Sphere {
     // Here we work with 2D cartesian and 2D polar coordinates
     var name: String
@@ -18,11 +21,22 @@ class Sphere {
     }
 
     func render() -> Mesh {
-      log(str: "render a Sphere for [\(name) at position: \(pos) with props: \(props)]")
+      //log(str: "render a Sphere for [\(name) at position: \(pos) with props: \(props)]")
       return (
           Mesh(meshType: "Sphere", meshPosition: pos, meshProps: props)
       )
     }
+}
+
+class Sphere_ : Scene {
+    public override init() {
+        super.init()
+
+        let solar = root.createChild()
+        print("->",solar)
+    }
+
+
 }
 
 class SystemSolar_ : Scene {
@@ -45,7 +59,7 @@ class SystemSolar_ : Scene {
                       "obj4": ["name": "Jupiter", "radius": 69911.0, "coord": Coord(polar: (97.85, Angles(deg: 0.0))), "revo": 1380.0, "tex": "/img/jupiter_tex.jpg"],
                       "obj5": ["name": "Saturn", "radius": 58232.0, "coord": Coord(polar: (143.40, Angles(deg: 0.0))), "revo": 3585.0, "tex": "/img/saturn_tex.jpg"],
                       "obj6": ["name": "Uranus", "radius": 25362.0, "coord": Coord(polar: (227.10, Angles(deg: 0.0))), "revo": 4660.0, "tex": "/img/uranus_tex.jpg"],
-                      "obj7": ["name": "Neptune", "radius": 24622.0, "coord": Coord(polar: (350.50, Angles(deg: 0.0))), "revo": 6225.0, "tex": "/img/neptune_tex.jpg"],
+                      "obj7": ["name": "Neptune", "radius": 24622.0, "coord": Coord(polar: (350.50, Angles(deg: 0.0))), "revo": 6225.0, "tex": "/img/neptune_tex.jpg"]
                      ]
         self.subTick(interval: 1)
     }
@@ -54,7 +68,7 @@ class SystemSolar_ : Scene {
     func subTick(interval: UInt32) {
         self.callTick = true
         while(callTick) {
-            log(str: "\n\n\(self.state)\n")
+            //log(str: "\n\n\(self.state)\n")
             self.tick()
             sleep(interval)
         }
@@ -98,7 +112,10 @@ class SystemSolar_ : Scene {
                                                                                                           revolution: (state["obj7"]!["revo"] as! Double)))))]
                                         ]
                         )
-      let _ = self.render()
+      print("hého")
+      let test = Sphere_()
+      print(test)
+      //self.render()
     }
 
     func render() -> (Sphere, Sphere, Sphere, Sphere, Sphere, Sphere, Sphere, Sphere) {
@@ -118,4 +135,93 @@ class SystemSolar_ : Scene {
 
 
 // Entry: Call the highest component
-let _ = sampleScene(name: "Solar System", scene: SystemSolar_())
+let _ = createScene(name: "Solar System", scene: SystemSolar())
+//let _ = sampleScene(name: "Solar System", scene: SystemSolar_())
+*/
+////////////////////////////////////////////////////////////////////////////////
+print("ENTRY POINT")
+
+class SystemSolar: ComponentTopLevel {
+
+  var state: [String: [String: Any]] = [:]
+  var callTick: Bool = true
+  let solarRadius: Double = 5.0
+
+  override init() {
+    super.init()
+
+    // Define the background color as "#______" and call setBackgroundColor(colHexa: Color)
+    setBackgroundColor(colHexa: "#000000")
+
+    // Define the global state of the application: this is a dictionary of dictionary
+    // Each object in the scene has some properties
+    // Here, each planet has a name, a radius, coordinates (polar: which are represented by the distance from the sun and the polar angle),
+    // a revolution and finally an image representing its texture
+    self.state = ["obj0": ["name": "Mercury", "radius": 11440.0, "coord": Coord(polar: (35.791, Angles(deg: 0.0))), "revo": 88.0, "tex": "/img/mercury_tex.jpeg"],
+                  "obj1": ["name": "Venus", "radius": 15052.0, "coord": Coord(polar: (45.82, Angles(deg: 0.0))), "revo": 225.0, "tex": "/img/venus_tex.jpg"],
+                  "obj2": ["name": "Earth", "radius": 16371.0, "coord": Coord(polar: (64.96, Angles(deg: 0.0))), "revo": 365.0, "tex": "/img/earth_tex.jpg"],
+                  "obj3": ["name": "Mars", "radius": 12390.0, "coord": Coord(polar: (72.79, Angles(deg: 0.0))), "revo": 687.0, "tex": "/img/mars_tex.jpg"],
+                  "obj4": ["name": "Jupiter", "radius": 69911.0, "coord": Coord(polar: (97.85, Angles(deg: 0.0))), "revo": 1380.0, "tex": "/img/jupiter_tex.jpg"],
+                  "obj5": ["name": "Saturn", "radius": 58232.0, "coord": Coord(polar: (143.40, Angles(deg: 0.0))), "revo": 3585.0, "tex": "/img/saturn_tex.jpg"],
+                  "obj6": ["name": "Uranus", "radius": 25362.0, "coord": Coord(polar: (227.10, Angles(deg: 0.0))), "revo": 4660.0, "tex": "/img/uranus_tex.jpg"],
+                  "obj7": ["name": "Neptune", "radius": 24622.0, "coord": Coord(polar: (350.50, Angles(deg: 0.0))), "revo": 6225.0, "tex": "/img/neptune_tex.jpg"]
+                 ]
+    //self.subTick(interval: 1)
+    self.render()
+  }
+
+  func render() -> (Sphere) {
+    return (
+      //Sphere(name: "Solar", pos: (state["solarCoord"] as! Coord), props: [state["solarRadius"]]),
+      Sphere(scene: self)
+      //Sphere(name: "Mercury", pos: (state["obj0"]!["coord"] as! Coord), props: [state["obj0"]!["radius"]]),
+      // Sphere(name: "Venus", pos: (state["obj1"]!["coord"] as! Coord), props: [state["obj1"]!["radius"]]),
+      // Sphere(name: "Earth", pos: (state["obj2"]!["coord"] as! Coord), props: [state["obj2"]!["radius"]]),
+      // Sphere(name: "Mars", pos: (state["obj3"]!["coord"] as! Coord), props: [state["obj3"]!["radius"]]),
+      // Sphere(name: "Jupiter", pos: (state["obj4"]!["coord"] as! Coord), props: [state["obj4"]!["radius"]]),
+      // Sphere(name: "Saturn", pos: (state["obj5"]!["coord"] as! Coord), props: [state["obj5"]!["radius"]]),
+      // Sphere(name: "Uranus", pos: (state["obj6"]!["coord"] as! Coord), props: [state["obj6"]!["radius"]]),
+      // Sphere(name: "Neptune", pos: (state["obj7"]!["coord"] as! Coord), props: [state["obj7"]!["radius"]])
+    )
+  }
+
+}
+
+
+class Sphere {
+    // Here we work with 2D cartesian and 2D polar coordinates
+    // var name: String?
+    // var pos: (Double, Double)?
+    // var props: [Any?]?
+    var test: String = "ok"
+    init(scene: SystemSolar) {
+      //super.init()
+      print(scene.state)
+      scene.setBackgroundColor(colHexa: "#000000")
+      // (x,y,z) -> call convert function
+      scene.createSphere(name: "Solar", seg: 100, rin: 100, rad: 10.0, tex: (scene.state["obj0"]!["tex"] as! String), x: 0.0, y: 0.0, z: 0.0)
+      //print(s.cameraNode)
+
+    }
+
+
+    // init(name: String, pos: Coord, props: [Any?]) {
+    //   self.name = name
+    //   self.pos = pos.polarToCart()
+    //   self.props = props
+    //
+    //   //let _ = self.render()
+    // }
+
+    // func render() -> Mesh {
+    //   //log(str: "render a Sphere for [\(name) at position: \(pos) with props: \(props)]")
+    //   return (
+    //       Mesh(meshType: "Sphere", meshPosition: pos, meshProps: props)
+    //   )
+    // }
+}
+
+// Entry: Call the highest component
+let _ = createScene(name: "Solar System", compTL: SystemSolar())
+//let sphere = Sphere()
+//print("----->",sphere.test)
