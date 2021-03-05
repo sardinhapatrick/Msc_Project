@@ -262,20 +262,31 @@ open class ComponentTopLevel: Scene {
     return backgroundColor!
   }
 
-  public func createSphere(name: String, seg: Int, rin: Int, rad: Double, tex: String, x: Double, y: Double, z: Double) {
+  public func createChildNode() -> Node {
     let child = root.createChild()
-    child.name = name
-    child.model = Model(
+    return child
+  }
+
+  public func setNodePosition(node: Node, x: Double, y: Double, z: Double) -> (Double, Double, Double) {
+    let x = node.translation.x
+    let y = node.translation.y
+    let z = node.translation.z
+    return (x,y,z)
+  }
+
+  public func createSphere(node: Node, name: String, seg: Int, rin: Int, rad: Double, tex: String, x: Double, y: Double, z: Double) {
+    node.name = name
+    node.model = Model(
       meshes: [.sphere(segments: seg, rings: rin, radius: rad)],
       materials: [Material()])
     // Apply a texture to the solar
-    child.model?.materials[0].diffuse = .texture(ImageTexture(image: Image(contentsOfFile: "Sources"+tex)!, wrapMethod: .repeat))
-    // Modify its color
-    //child.model?.materials[0].multiply = .color(Color(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5))
-    child.translation.x = x
-    child.translation.y = y
-    child.translation.z = z
+    node.model?.materials[0].diffuse = .texture(ImageTexture(image: Image(contentsOfFile: "Sources"+tex)!, wrapMethod: .repeat))
+    node.translation.x = x
+    node.translation.y = y
+    node.translation.z = z
   }
+
+
 
 }
 

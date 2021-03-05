@@ -150,8 +150,9 @@ class SystemSolar: ComponentTopLevel {
   override init() {
     super.init()
 
-    // Define the background color as "#______" and call setBackgroundColor(colHexa: Color)
-    setBackgroundColor(colHexa: "#000000")
+    // Define the background color as "#______" or using the Color class developed
+    // in Rendery and call setBackgroundColor(colHexa: Color)
+    self.setBackgroundColor(colHexa: "#000000")
 
     // Define the global state of the application: this is a dictionary of dictionary
     // Each object in the scene has some properties
@@ -170,10 +171,11 @@ class SystemSolar: ComponentTopLevel {
     self.render()
   }
 
-  func render() -> (Sphere) {
+  func render() -> (Sphere, Sphere) {
     return (
       //Sphere(name: "Solar", pos: (state["solarCoord"] as! Coord), props: [state["solarRadius"]]),
-      Sphere(scene: self)
+      Sphere(scene: self, z:0.0),
+      Sphere(scene: self, z:15.0)
       //Sphere(name: "Mercury", pos: (state["obj0"]!["coord"] as! Coord), props: [state["obj0"]!["radius"]]),
       // Sphere(name: "Venus", pos: (state["obj1"]!["coord"] as! Coord), props: [state["obj1"]!["radius"]]),
       // Sphere(name: "Earth", pos: (state["obj2"]!["coord"] as! Coord), props: [state["obj2"]!["radius"]]),
@@ -193,15 +195,16 @@ class Sphere {
     // var name: String?
     // var pos: (Double, Double)?
     // var props: [Any?]?
-    var test: String = "ok"
-    init(scene: SystemSolar) {
-      //super.init()
-      print(scene.state)
-      scene.setBackgroundColor(colHexa: "#000000")
+    init(scene: SystemSolar, z: Double) {
+      // scene is the current scene, where to place 3D objects
       // (x,y,z) -> call convert function
-      scene.createSphere(name: "Solar", seg: 100, rin: 100, rad: 10.0, tex: (scene.state["obj0"]!["tex"] as! String), x: 0.0, y: 0.0, z: 0.0)
-      //print(s.cameraNode)
+      //scene.createSphere(name: "Solar", seg: 100, rin: 100, rad: 10.0, tex: (scene.state["obj0"]!["tex"] as! String), x: 0.0, y: 0.0, z: 0.0)
 
+      // createChildNode() allows to create a child node in the scene (root is the parent node of the scene)
+      let n = scene.createChildNode()
+
+      // Call createSphere() to create a sphere in the current scene
+      scene.createSphere(node: n, name: "Solar", seg: 100, rin: 100, rad: 10.0, tex: (scene.state["obj0"]!["tex"] as! String), x: 0.0, y: 0.0, z: z)
     }
 
 
