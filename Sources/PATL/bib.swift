@@ -265,32 +265,32 @@ public struct Angles {
   }
 }
 
-// TODO: Def Coord for 3D space -> Polar : 1 dist + 2 angles
-//                                 cart : x, y, z 
 public struct Coord {
 
-  public var polar: (Double, Angles) = (0.0, Angles(deg: 0.0))
-  public var cart: (Double, Double) = (0.0, 0.0)
+  public var polar: (Double, Angles, Angles) = (0.0, Angles(deg: 0.0), Angles(deg: 0.0))
+  public var cart: (Double, Double, Double) = (0.0, 0.0, 0.0)
 
-  public init(polar: (Double, Angles)) {
+  public init(polar: (Double, Angles, Angles)) {
     self.polar = polar
   }
 
-  public init(cart: (Double, Double)) {
+  public init(cart: (Double, Double, Double)) {
     self.cart = cart
   }
 
-  public func polarToCart() -> (Double, Double) {
-    let x = polar.0 * cos(polar.1.deg)
-    let y = polar.0 * sin(polar.1.deg)
-    return (x,y)
+  public func polarToCart() -> (Double, Double, Double) {
+    let x = polar.0 * sin(polar.1.deg) * cos(polar.2.deg)
+    let y = polar.0 * sin(polar.1.deg) * sin(polar.2.deg)
+    let z = polar.0 * cos(polar.1.deg)
+    return (x,y,z)
   }
 
-  public func cartToPolar() -> (Double, Angles) {
-    let r = sqrt(pow(cart.0, 2.0) + pow(cart.1, 2.0))
-    let t = Angles(deg: atan(cart.1 / cart.0))
-    return (r,t)
-  }
+  // TODO: Convert C2P for 3D coordinates
+  // public func cartToPolar() -> (Double, Angles, Anlges) {
+  //   let r = sqrt(pow(cart.0, 2.0) + pow(cart.1, 2.0))
+  //   let t = Angles(deg: atan(cart.1 / cart.0))
+  //   return (r,t)
+  // }
 }
 
 // Build the Scene related to ComponentTopLevel
@@ -302,7 +302,7 @@ open class ComponentTopLevel: Scene {
     cameraNode.name = "Camera"
     cameraNode.camera = Camera()
     cameraNode.camera?.farDistance = 5000.0
-    cameraNode.translation = Vector3(x: 750.0, y: 65, z: 0.0)
+    cameraNode.translation = Vector3(x: 650.0, y: 90, z: 0.0)
     cameraNode.constraints.append(LookAtConstraint(target: root))
   }
 
@@ -360,7 +360,27 @@ open class ComponentTopLevel: Scene {
 
   // TODO: Add function to generate other basic mesh
 
+
+  // TODO HERE ??: Subscribe to function Tick()
+  // subTick() call the tick() function "targetFrameRate" per second (defined in createScene())
+
+  // TODO: function unsubTick()
+
 }
+
+// Predefined function to update the global state of the application
+public func updateState(currentState: [String: [String: Any]], nextState: [String: [String: Any]]) -> [String: [String: Any]] {
+    var tmpState = currentState
+    for (outerKey, _) in nextState {
+        for (innerKey, _) in nextState[outerKey]! {
+            tmpState[outerKey]![innerKey]! = nextState[outerKey]![innerKey]!
+            //tmpState[outerKey]![innerKey]!.updateValue(nextState[outerKey]!, forKey: innerKey)
+        }
+    }
+    return tmpState
+}
+
+
 
 // First function to call:
 public func createScene(name: String, compTL: Scene) {
