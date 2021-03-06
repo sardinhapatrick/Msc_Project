@@ -243,6 +243,56 @@ public func createScene(name: String, scene: Scene) {
 */
 ///////////////////////////////////////////////////////////////////////////////
 
+public struct Angles {
+
+  public var deg: Double = 0.0
+  public var rad: Double = 0.0
+
+  public init(deg: Double) {
+    self.deg = deg
+  }
+
+  public init(rad: Double) {
+    self.rad = rad
+  }
+
+  public func degToRad() -> Double {
+    return (deg * (Double.pi/180))
+  }
+
+  public func radToDeg() -> Double {
+    return rad * (180/Double.pi)
+  }
+}
+
+// TODO: Def Coord for 3D space -> Polar : 1 dist + 2 angles
+//                                 cart : x, y, z 
+public struct Coord {
+
+  public var polar: (Double, Angles) = (0.0, Angles(deg: 0.0))
+  public var cart: (Double, Double) = (0.0, 0.0)
+
+  public init(polar: (Double, Angles)) {
+    self.polar = polar
+  }
+
+  public init(cart: (Double, Double)) {
+    self.cart = cart
+  }
+
+  public func polarToCart() -> (Double, Double) {
+    let x = polar.0 * cos(polar.1.deg)
+    let y = polar.0 * sin(polar.1.deg)
+    return (x,y)
+  }
+
+  public func cartToPolar() -> (Double, Angles) {
+    let r = sqrt(pow(cart.0, 2.0) + pow(cart.1, 2.0))
+    let t = Angles(deg: atan(cart.1 / cart.0))
+    return (r,t)
+  }
+}
+
 // Build the Scene related to ComponentTopLevel
 open class ComponentTopLevel: Scene {
   public override init() {
@@ -262,73 +312,53 @@ open class ComponentTopLevel: Scene {
     return backgroundColor!
   }
 
-  public func createChildNode() -> Node {
-    let child = root.createChild()
-    return child
-  }
-
-  public func setNodePosition(node: Node, x: Double, y: Double, z: Double) -> (Double, Double, Double) {
-    let x = node.translation.x
-    let y = node.translation.y
-    let z = node.translation.z
-    return (x,y,z)
-  }
-
-  public func createSphere(node: Node, name: String, seg: Int, rin: Int, rad: Double, tex: String, x: Double, y: Double, z: Double) {
+  // Create a Child node in the current scene
+  public func createChildNode(name: String) -> Node {
+    let node = root.createChild()
     node.name = name
-    node.model = Model(
-      meshes: [.sphere(segments: seg, rings: rin, radius: rad)],
-      materials: [Material()])
-    // Apply a texture to the solar
+    return node
+  }
+
+  // Apply the "tex" texture to the node
+  public func applyTexture(node: Node, tex: String) {
+    // TODO: Add different possibles map to add texture
+    // TODO: Add the different possibles wrapMethod
+    // TODO: Add color for Material() not only texture
     node.model?.materials[0].diffuse = .texture(ImageTexture(image: Image(contentsOfFile: "Sources"+tex)!, wrapMethod: .repeat))
+  }
+
+  // Set the position of a node
+  public func setNodePosition(node: Node, x: Double, y: Double, z: Double) {
     node.translation.x = x
     node.translation.y = y
     node.translation.z = z
   }
 
+  // Define a node as sphere with some properties: (segments, rings, radius)
+  public func createSphere(node: Node, segments: Int, rings: Int, radius: Double) {
+    node.model = Model(
+      meshes: [.sphere(segments: segments, rings: rings, radius: radius)],
+      materials: [Material()])
+    // By default a new Sphere has (0,0,0) as coordinates
+  }
 
+  // Define a node as box with some properties: (segments, rings, radius)
+  public func createBox(node: Node) {
+    node.model = Model(
+      // TODO: inputable centeredAt & dimensions
+      meshes: [.box(.init(centeredAt: .zero, dimensions: .unitScale))],
+      materials: [Material()])
+  }
 
-}
+  // Define a node as rectangle with some properties: (segments, rings, radius)
+  public func createRectangle(node: Node) {
+    node.model = Model(
+      // TODO: inputable centeredAt & dimensions + output missing?
+      meshes: [.rectangle(Rectangle(centeredAt: .zero, dimensions: Vector2(x: 5.0, y: 5.0)))],
+      materials: [Material()])
+  }
 
-
-public struct Angles {
-    public var deg: Double?
-    public var rad: Double?
-
-    public init(deg: Double? = nil, rad: Double? = nil) {
-        self.deg = deg
-        self.rad = rad
-    }
-
-    public func degToRad() -> Double {
-        return (deg! * (Double.pi/180))
-    }
-
-    public func radToDeg() -> Double {
-        return rad! * (180/Double.pi)
-    }
-}
-
-public struct Coord {
-    public var polar: (Double, Angles)?
-    public var cart: (Double, Double)?
-
-    public init(polar: (Double, Angles)? = nil, cart: (Double, Double)? = nil) {
-        self.polar = polar
-        self.cart = cart
-    }
-
-    public func polarToCart() -> (Double, Double) {
-        let x = polar!.0 * cos(polar!.1.deg!)
-        let y = polar!.0 * sin(polar!.1.deg!)
-        return (x,y)
-    }
-
-    public func cartToPolar() -> (Double, Angles) {
-        let r = sqrt(pow(cart!.0, 2.0) + pow(cart!.1, 2.0))
-        let t = Angles(deg: atan(cart!.1 / cart!.0))
-        return (r,t)
-    }
+  // TODO: Add function to generate other basic mesh
 
 }
 

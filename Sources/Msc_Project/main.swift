@@ -171,19 +171,25 @@ class SystemSolar: ComponentTopLevel {
     self.render()
   }
 
-  func render() -> (Sphere, Sphere) {
+  func render() -> (Sphere, Sphere, Sphere, Sphere, Sphere, Sphere, Sphere, Sphere) {
     return (
       //Sphere(name: "Solar", pos: (state["solarCoord"] as! Coord), props: [state["solarRadius"]]),
-      Sphere(scene: self, z:0.0),
-      Sphere(scene: self, z:15.0)
-      //Sphere(name: "Mercury", pos: (state["obj0"]!["coord"] as! Coord), props: [state["obj0"]!["radius"]]),
-      // Sphere(name: "Venus", pos: (state["obj1"]!["coord"] as! Coord), props: [state["obj1"]!["radius"]]),
-      // Sphere(name: "Earth", pos: (state["obj2"]!["coord"] as! Coord), props: [state["obj2"]!["radius"]]),
-      // Sphere(name: "Mars", pos: (state["obj3"]!["coord"] as! Coord), props: [state["obj3"]!["radius"]]),
-      // Sphere(name: "Jupiter", pos: (state["obj4"]!["coord"] as! Coord), props: [state["obj4"]!["radius"]]),
-      // Sphere(name: "Saturn", pos: (state["obj5"]!["coord"] as! Coord), props: [state["obj5"]!["radius"]]),
-      // Sphere(name: "Uranus", pos: (state["obj6"]!["coord"] as! Coord), props: [state["obj6"]!["radius"]]),
-      // Sphere(name: "Neptune", pos: (state["obj7"]!["coord"] as! Coord), props: [state["obj7"]!["radius"]])
+      Sphere(scene: self, coord: (self.state["obj0"]!["coord"] as! Coord), props: [(self.state["obj0"]!["name"] as! String),
+                                                                                   (self.state["obj0"]!["tex"] as! String)]),
+      Sphere(scene: self, coord: (self.state["obj1"]!["coord"] as! Coord), props: [(self.state["obj1"]!["name"] as! String),
+                                                                                  (self.state["obj1"]!["tex"] as! String)]),
+      Sphere(scene: self, coord: (self.state["obj2"]!["coord"] as! Coord), props: [(self.state["obj2"]!["name"] as! String),
+                                                                                   (self.state["obj2"]!["tex"] as! String)]),
+      Sphere(scene: self, coord: (self.state["obj3"]!["coord"] as! Coord), props: [(self.state["obj3"]!["name"] as! String),
+                                                                                   (self.state["obj3"]!["tex"] as! String)]),
+      Sphere(scene: self, coord: (self.state["obj4"]!["coord"] as! Coord), props: [(self.state["obj4"]!["name"] as! String),
+                                                                                   (self.state["obj4"]!["tex"] as! String)]),
+      Sphere(scene: self, coord: (self.state["obj5"]!["coord"] as! Coord), props: [(self.state["obj5"]!["name"] as! String),
+                                                                                   (self.state["obj5"]!["tex"] as! String)]),
+      Sphere(scene: self, coord: (self.state["obj6"]!["coord"] as! Coord), props: [(self.state["obj6"]!["name"] as! String),
+                                                                                   (self.state["obj6"]!["tex"] as! String)]),
+      Sphere(scene: self, coord: (self.state["obj7"]!["coord"] as! Coord), props: [(self.state["obj7"]!["name"] as! String),
+                                                                                   (self.state["obj7"]!["tex"] as! String)])
     )
   }
 
@@ -191,40 +197,36 @@ class SystemSolar: ComponentTopLevel {
 
 
 class Sphere {
-    // Here we work with 2D cartesian and 2D polar coordinates
-    // var name: String?
-    // var pos: (Double, Double)?
-    // var props: [Any?]?
-    init(scene: SystemSolar, z: Double) {
-      // scene is the current scene, where to place 3D objects
-      // (x,y,z) -> call convert function
-      //scene.createSphere(name: "Solar", seg: 100, rin: 100, rad: 10.0, tex: (scene.state["obj0"]!["tex"] as! String), x: 0.0, y: 0.0, z: 0.0)
+  var scene: SystemSolar
+  var coord: Coord
+  var props: [Any]
+  init(scene: SystemSolar, coord: Coord, props: [Any]) {
+    // scene is the current scene, where to place 3D objects
+    self.scene = scene
+    self.coord = coord
+    self.props = props
 
-      // createChildNode() allows to create a child node in the scene (root is the parent node of the scene)
-      let n = scene.createChildNode()
+    // Call the low level render function
+    self.render()
+  }
 
-      // Call createSphere() to create a sphere in the current scene
-      scene.createSphere(node: n, name: "Solar", seg: 100, rin: 100, rad: 10.0, tex: (scene.state["obj0"]!["tex"] as! String), x: 0.0, y: 0.0, z: z)
-    }
+  func render() {
+    // createChildNode() allows to create a child node in the scene (root is the parent node of the scene)
+    let n = scene.createChildNode(name: props[0] as! String)
 
+    // Call createSphere() to create a sphere in the current scene
+    scene.createSphere(node: n, segments: 100, rings: 100, radius: 10.0)
+    // Apply a texture from an image
+    scene.applyTexture(node: n, tex: props[1] as! String)
 
-    // init(name: String, pos: Coord, props: [Any?]) {
-    //   self.name = name
-    //   self.pos = pos.polarToCart()
-    //   self.props = props
-    //
-    //   //let _ = self.render()
-    // }
-
-    // func render() -> Mesh {
-    //   //log(str: "render a Sphere for [\(name) at position: \(pos) with props: \(props)]")
-    //   return (
-    //       Mesh(meshType: "Sphere", meshPosition: pos, meshProps: props)
-    //   )
-    // }
+    // Call predefined convert function for coordinates
+    // Users can define their own abstract types
+    // let x =
+    // let y =
+    let z = -coord.polarToCart().0
+    scene.setNodePosition(node: n, x: 0.0, y: 0.0, z: z)
+  }
 }
 
 // Entry: Call the highest component
 let _ = createScene(name: "Solar System", compTL: SystemSolar())
-//let sphere = Sphere()
-//print("----->",sphere.test)
