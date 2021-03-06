@@ -49,7 +49,7 @@ class SystemSolar: ComponentTopLevel {
     return -1*(d_m/696340)
   }
 
-  // TODO: USABLE IN PATL? 
+  // TODO: USABLE IN PATL?
   func tick(node: [Node]) {
     AppContext.shared.subscribe(frameListener: { _, delta in
       self.state = updateState(
@@ -89,39 +89,7 @@ class SystemSolar: ComponentTopLevel {
                    ]
         )
 
-      //print(self.state)
-      Sphere(node: node[0],
-             scene: self,
-             coord: (self.state["obj0"]!["coord"] as! Coord)
-           ).rerender() // Call the low level render function
-      Sphere(node: node[1],
-             scene: self,
-             coord: (self.state["obj1"]!["coord"] as! Coord)
-           ).rerender()
-      Sphere(node: node[2],
-             scene: self,
-             coord: (self.state["obj2"]!["coord"] as! Coord)
-           ).rerender()
-      Sphere(node: node[3],
-             scene: self,
-             coord: (self.state["obj3"]!["coord"] as! Coord)
-           ).rerender()
-      Sphere(node: node[4],
-             scene: self,
-             coord: (self.state["obj4"]!["coord"] as! Coord)
-           ).rerender()
-      Sphere(node: node[5],
-             scene: self,
-             coord: (self.state["obj5"]!["coord"] as! Coord)
-           ).rerender()
-      Sphere(node: node[6],
-             scene: self,
-             coord: (self.state["obj6"]!["coord"] as! Coord)
-           ).rerender()
-      Sphere(node: node[7],
-             scene: self,
-             coord: (self.state["obj7"]!["coord"] as! Coord)
-           ).rerender()
+      self.rerender(newState: self.state, node: node)
     })
   }
 
@@ -133,48 +101,83 @@ class SystemSolar: ComponentTopLevel {
                          props: [(self.state["root"]!["tex"] as! String), (self.state["root"]!["radius"] as! Double)]
                          ).render()
       let s0 = Sphere(name: (self.state["obj0"]!["name"] as! String),
-             scene: self,
-             coord: (self.state["obj0"]!["coord"] as! Coord),
-             props: [(self.state["obj0"]!["tex"] as! String), (self.state["obj0"]!["radius"] as! Double)]
-           ).render() // Call the low level render function
+                      scene: self,
+                      coord: (self.state["obj0"]!["coord"] as! Coord),
+                      props: [(self.state["obj0"]!["tex"] as! String), (self.state["obj0"]!["radius"] as! Double)]
+                      ).render() // Call the low level render function
       let s1 = Sphere(name: (self.state["obj1"]!["name"] as! String),
-             scene: self,
-             coord: (self.state["obj1"]!["coord"] as! Coord),
-             props: [(self.state["obj1"]!["tex"] as! String), (self.state["obj1"]!["radius"] as! Double)]
-           ).render()
+                      scene: self,
+                      coord: (self.state["obj1"]!["coord"] as! Coord),
+                      props: [(self.state["obj1"]!["tex"] as! String), (self.state["obj1"]!["radius"] as! Double)]
+                      ).render()
       let s2 = Sphere(name: (self.state["obj2"]!["name"] as! String),
-             scene: self,
-             coord: (self.state["obj2"]!["coord"] as! Coord),
-             props: [(self.state["obj2"]!["tex"] as! String), (self.state["obj2"]!["radius"] as! Double)]
-           ).render()
+                      scene: self,
+                      coord: (self.state["obj2"]!["coord"] as! Coord),
+                      props: [(self.state["obj2"]!["tex"] as! String), (self.state["obj2"]!["radius"] as! Double)]
+                      ).render()
       let s3 = Sphere(name: (self.state["obj3"]!["name"] as! String),
-             scene: self,
-             coord: (self.state["obj3"]!["coord"] as! Coord),
-             props: [(self.state["obj3"]!["tex"] as! String), (self.state["obj3"]!["radius"] as! Double)]
-           ).render()
+                      scene: self,
+                      coord: (self.state["obj3"]!["coord"] as! Coord),
+                      props: [(self.state["obj3"]!["tex"] as! String), (self.state["obj3"]!["radius"] as! Double)]
+                      ).render()
       let s4 = Sphere(name: (self.state["obj4"]!["name"] as! String),
-             scene: self,
-             coord: (self.state["obj4"]!["coord"] as! Coord),
-             props: [(self.state["obj4"]!["tex"] as! String), (self.state["obj4"]!["radius"] as! Double)]
-           ).render()
+                      scene: self,
+                      coord: (self.state["obj4"]!["coord"] as! Coord),
+                      props: [(self.state["obj4"]!["tex"] as! String), (self.state["obj4"]!["radius"] as! Double)]
+                      ).render()
       let s5 = Sphere(name: (self.state["obj5"]!["name"] as! String),
-             scene: self,
-             coord: (self.state["obj5"]!["coord"] as! Coord),
-             props: [(self.state["obj5"]!["tex"] as! String), (self.state["obj5"]!["radius"] as! Double)]
-           ).render()
+                      scene: self,
+                      coord: (self.state["obj5"]!["coord"] as! Coord),
+                      props: [(self.state["obj5"]!["tex"] as! String), (self.state["obj5"]!["radius"] as! Double)]
+                      ).render()
       let s6 = Sphere(name: (self.state["obj6"]!["name"] as! String),
-             scene: self,
-             coord: (self.state["obj6"]!["coord"] as! Coord),
-             props: [(self.state["obj6"]!["tex"] as! String), (self.state["obj6"]!["radius"] as! Double)]
-           ).render()
+                      scene: self,
+                      coord: (self.state["obj6"]!["coord"] as! Coord),
+                      props: [(self.state["obj6"]!["tex"] as! String), (self.state["obj6"]!["radius"] as! Double)]
+                      ).render()
       let s7 = Sphere(name: (self.state["obj7"]!["name"] as! String),
-             scene: self,
-             coord: (self.state["obj7"]!["coord"] as! Coord),
-             props: [(self.state["obj7"]!["tex"] as! String), (self.state["obj7"]!["radius"] as! Double)]
-           ).render()
+                      scene: self,
+                      coord: (self.state["obj7"]!["coord"] as! Coord),
+                      props: [(self.state["obj7"]!["tex"] as! String), (self.state["obj7"]!["radius"] as! Double)]
+                      ).render()
 
       self.tick(node: [s0 as! Node, s1 as! Node, s2 as! Node, s3 as! Node,
                        s4 as! Node, s5 as! Node, s6 as! Node, s7 as! Node])
+  }
+
+  func rerender(newState: [String: [String: Any]], node: [Node]) {
+    Sphere(node: node[0],
+           scene: self,
+           coord: (self.state["obj0"]!["coord"] as! Coord)
+         ).rerender() // Call the low level render function
+    Sphere(node: node[1],
+           scene: self,
+           coord: (self.state["obj1"]!["coord"] as! Coord)
+         ).rerender()
+    Sphere(node: node[2],
+           scene: self,
+           coord: (self.state["obj2"]!["coord"] as! Coord)
+         ).rerender()
+    Sphere(node: node[3],
+           scene: self,
+           coord: (self.state["obj3"]!["coord"] as! Coord)
+         ).rerender()
+    Sphere(node: node[4],
+           scene: self,
+           coord: (self.state["obj4"]!["coord"] as! Coord)
+         ).rerender()
+    Sphere(node: node[5],
+           scene: self,
+           coord: (self.state["obj5"]!["coord"] as! Coord)
+         ).rerender()
+    Sphere(node: node[6],
+           scene: self,
+           coord: (self.state["obj6"]!["coord"] as! Coord)
+         ).rerender()
+    Sphere(node: node[7],
+           scene: self,
+           coord: (self.state["obj7"]!["coord"] as! Coord)
+         ).rerender()
   }
 }
 
