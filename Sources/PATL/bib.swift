@@ -101,7 +101,6 @@ open class ComponentTopLevel: Scene {
     // By default a new Sphere has (0,0,0) as coordinates
   }
 
-  // Define a node as box with some properties: (segments, rings, radius)
   public func createBox(node: Node) {
     node.model = Model(
       // TODO: inputable centeredAt & dimensions
@@ -109,7 +108,6 @@ open class ComponentTopLevel: Scene {
       materials: [Material()])
   }
 
-  // Define a node as rectangle with some properties: (segments, rings, radius)
   public func createRectangle(node: Node) {
     node.model = Model(
       // TODO: inputable centeredAt & dimensions + output missing?
@@ -133,7 +131,6 @@ public func updateState(currentState: [String: [String: Any]], nextState: [Strin
     for (outerKey, _) in nextState {
         for (innerKey, _) in nextState[outerKey]! {
             tmpState[outerKey]![innerKey]! = nextState[outerKey]![innerKey]!
-            //tmpState[outerKey]![innerKey]!.updateValue(nextState[outerKey]!, forKey: innerKey)
         }
     }
     return tmpState

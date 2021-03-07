@@ -149,7 +149,7 @@ class SystemSolar: ComponentTopLevel {
     Sphere(node: node[0],
            scene: self,
            coord: (self.state["obj0"]!["coord"] as! Coord)
-         ).rerender() // Call the low level render function
+         ).rerender() // Call the low level rerender function
     Sphere(node: node[1],
            scene: self,
            coord: (self.state["obj1"]!["coord"] as! Coord)
@@ -219,7 +219,6 @@ class Sphere {
     let x = coord.polarToCart().0
     let y = coord.polarToCart().1
     let z = coord.polarToCart().2
-    //print(x,y,z)
     scene.setNodePosition(node: n, x: x, y: y, z: z)
     return n
   }
