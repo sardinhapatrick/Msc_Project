@@ -66,9 +66,8 @@ open class ComponentTopLevel: Scene {
   }
 
   // Set the background color of the scene
-  public func setBackgroundColor(colHexa: Color) -> Color {
+  public func setBackgroundColor(colHexa: Color) {
     backgroundColor = colHexa
-    return backgroundColor!
   }
 
   // Create a Child node in the current scene
@@ -87,10 +86,10 @@ open class ComponentTopLevel: Scene {
   }
 
   // Set the position of a node
-  public func setNodePosition(node: Node, x: Double, y: Double, z: Double) {
-    node.translation.x = x
-    node.translation.y = y
-    node.translation.z = z
+  public func setNodePosition(node: Any, x: Double, y: Double, z: Double) {
+    (node as! Node).translation.x = x
+    (node as! Node).translation.y = y
+    (node as! Node).translation.z = z
   }
 
   // Define a node as sphere with some properties: (segments, rings, radius)
@@ -116,13 +115,12 @@ open class ComponentTopLevel: Scene {
   }
 
   // TODO: Add function to generate other basic mesh
+}
 
-
-  // TODO HERE ??: Subscribe to function Tick()
-  // subTick() call the tick() function "targetFrameRate" per second (defined in createScene())
-
-  // TODO: function unsubTick()
-
+public func registerTick(selectorUpdate: @escaping () -> Void) {
+  AppContext.shared.subscribe(frameListener: { _, delta in
+    selectorUpdate()
+  })
 }
 
 // Predefined function to update the global state of the application

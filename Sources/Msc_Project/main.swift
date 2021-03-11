@@ -1,5 +1,4 @@
 import PATL
-import Rendery
 import Foundation
 import Glibc
 
@@ -49,57 +48,56 @@ class SystemSolar: ComponentTopLevel {
     return -1*(d_m/696340)
   }
 
-  // TODO: USABLE IN PATL?
-  func tick(node: [Node]) {
-    AppContext.shared.subscribe(frameListener: { _, delta in
-      self.state = updateState(
-        currentState: self.state,
-        nextState: ["obj0": ["coord": Coord(polar: ((self.state["obj0"]!["coord"] as! Coord).polar.0,
-                                                     Angles(deg: self.updatePlanetPos(currentAngle: (self.state["obj0"]!["coord"] as! Coord).polar.1,
-                                                                                      revolution: (self.state["obj0"]!["revo"] as! Double))),
-                                                     Angles(deg: (self.state["obj0"]!["coord"] as! Coord).polar.2.deg)))],
-                    "obj1": ["coord": Coord(polar: ((self.state["obj1"]!["coord"] as! Coord).polar.0,
-                                                     Angles(deg: self.updatePlanetPos(currentAngle: (self.state["obj1"]!["coord"] as! Coord).polar.1,
-                                                                                      revolution: (self.state["obj1"]!["revo"] as! Double))),
-                                                     Angles(deg: (self.state["obj1"]!["coord"] as! Coord).polar.2.deg)))],
-                    "obj2": ["coord": Coord(polar: ((self.state["obj2"]!["coord"] as! Coord).polar.0,
-                                                     Angles(deg: self.updatePlanetPos(currentAngle: (self.state["obj2"]!["coord"] as! Coord).polar.1,
-                                                                                      revolution: (self.state["obj2"]!["revo"] as! Double))),
-                                                     Angles(deg: (self.state["obj2"]!["coord"] as! Coord).polar.2.deg)))],
-                    "obj3": ["coord": Coord(polar: ((self.state["obj3"]!["coord"] as! Coord).polar.0,
-                                                     Angles(deg: self.updatePlanetPos(currentAngle: (self.state["obj3"]!["coord"] as! Coord).polar.1,
-                                                                                      revolution: (self.state["obj3"]!["revo"] as! Double))),
-                                                     Angles(deg: (self.state["obj3"]!["coord"] as! Coord).polar.2.deg)))],
-                    "obj4": ["coord": Coord(polar: ((self.state["obj4"]!["coord"] as! Coord).polar.0,
-                                                     Angles(deg: self.updatePlanetPos(currentAngle: (self.state["obj4"]!["coord"] as! Coord).polar.1,
-                                                                                      revolution: (self.state["obj4"]!["revo"] as! Double))),
-                                                     Angles(deg: (self.state["obj4"]!["coord"] as! Coord).polar.2.deg)))],
-                    "obj5": ["coord": Coord(polar: ((self.state["obj5"]!["coord"] as! Coord).polar.0,
-                                                     Angles(deg: self.updatePlanetPos(currentAngle: (self.state["obj5"]!["coord"] as! Coord).polar.1,
-                                                                                      revolution: (self.state["obj5"]!["revo"] as! Double))),
-                                                     Angles(deg: (self.state["obj5"]!["coord"] as! Coord).polar.2.deg)))],
-                    "obj6": ["coord": Coord(polar: ((self.state["obj6"]!["coord"] as! Coord).polar.0,
-                                                     Angles(deg: self.updatePlanetPos(currentAngle: (self.state["obj6"]!["coord"] as! Coord).polar.1,
-                                                                                      revolution: (self.state["obj6"]!["revo"] as! Double))),
-                                                     Angles(deg: (self.state["obj6"]!["coord"] as! Coord).polar.2.deg)))],
-                    "obj7": ["coord": Coord(polar: ((self.state["obj7"]!["coord"] as! Coord).polar.0,
-                                                     Angles(deg: self.updatePlanetPos(currentAngle: (self.state["obj7"]!["coord"] as! Coord).polar.1,
-                                                                                      revolution: (self.state["obj7"]!["revo"] as! Double))),
-                                                     Angles(deg: (self.state["obj7"]!["coord"] as! Coord).polar.2.deg)))]
-                   ]
-        )
+  // TODO: def update global state function in bib.swift
+  func update(node: [Any]) {
+    self.state = updateState(
+      currentState: self.state,
+      nextState: ["obj0": ["coord": Coord(polar: ((self.state["obj0"]!["coord"] as! Coord).polar.0,
+                                                   Angles(deg: self.updatePlanetPos(currentAngle: (self.state["obj0"]!["coord"] as! Coord).polar.1,
+                                                                                    revolution: (self.state["obj0"]!["revo"] as! Double))),
+                                                   Angles(deg: (self.state["obj0"]!["coord"] as! Coord).polar.2.deg)))],
+                  "obj1": ["coord": Coord(polar: ((self.state["obj1"]!["coord"] as! Coord).polar.0,
+                                                   Angles(deg: self.updatePlanetPos(currentAngle: (self.state["obj1"]!["coord"] as! Coord).polar.1,
+                                                                                    revolution: (self.state["obj1"]!["revo"] as! Double))),
+                                                   Angles(deg: (self.state["obj1"]!["coord"] as! Coord).polar.2.deg)))],
+                  "obj2": ["coord": Coord(polar: ((self.state["obj2"]!["coord"] as! Coord).polar.0,
+                                                   Angles(deg: self.updatePlanetPos(currentAngle: (self.state["obj2"]!["coord"] as! Coord).polar.1,
+                                                                                    revolution: (self.state["obj2"]!["revo"] as! Double))),
+                                                   Angles(deg: (self.state["obj2"]!["coord"] as! Coord).polar.2.deg)))],
+                  "obj3": ["coord": Coord(polar: ((self.state["obj3"]!["coord"] as! Coord).polar.0,
+                                                   Angles(deg: self.updatePlanetPos(currentAngle: (self.state["obj3"]!["coord"] as! Coord).polar.1,
+                                                                                    revolution: (self.state["obj3"]!["revo"] as! Double))),
+                                                   Angles(deg: (self.state["obj3"]!["coord"] as! Coord).polar.2.deg)))],
+                  "obj4": ["coord": Coord(polar: ((self.state["obj4"]!["coord"] as! Coord).polar.0,
+                                                   Angles(deg: self.updatePlanetPos(currentAngle: (self.state["obj4"]!["coord"] as! Coord).polar.1,
+                                                                                    revolution: (self.state["obj4"]!["revo"] as! Double))),
+                                                   Angles(deg: (self.state["obj4"]!["coord"] as! Coord).polar.2.deg)))],
+                  "obj5": ["coord": Coord(polar: ((self.state["obj5"]!["coord"] as! Coord).polar.0,
+                                                   Angles(deg: self.updatePlanetPos(currentAngle: (self.state["obj5"]!["coord"] as! Coord).polar.1,
+                                                                                    revolution: (self.state["obj5"]!["revo"] as! Double))),
+                                                   Angles(deg: (self.state["obj5"]!["coord"] as! Coord).polar.2.deg)))],
+                  "obj6": ["coord": Coord(polar: ((self.state["obj6"]!["coord"] as! Coord).polar.0,
+                                                   Angles(deg: self.updatePlanetPos(currentAngle: (self.state["obj6"]!["coord"] as! Coord).polar.1,
+                                                                                    revolution: (self.state["obj6"]!["revo"] as! Double))),
+                                                   Angles(deg: (self.state["obj6"]!["coord"] as! Coord).polar.2.deg)))],
+                  "obj7": ["coord": Coord(polar: ((self.state["obj7"]!["coord"] as! Coord).polar.0,
+                                                   Angles(deg: self.updatePlanetPos(currentAngle: (self.state["obj7"]!["coord"] as! Coord).polar.1,
+                                                                                    revolution: (self.state["obj7"]!["revo"] as! Double))),
+                                                   Angles(deg: (self.state["obj7"]!["coord"] as! Coord).polar.2.deg)))]
+                 ]
+      )
 
-      self.rerender(newState: self.state, node: node)
-    })
+    // TODO: then put it in the closure call (see render())
+    self.rerender(newState: self.state, node: node)
   }
 
   // This is RENDER and not RERENDER because it's the first time we render our objetcs
   func render() {
-      let solar = Sphere(name: (self.state["root"]!["name"] as! String),
-                         scene: self,
-                         coord: (self.state["root"]!["coord"] as! Coord),
-                         props: [(self.state["root"]!["tex"] as! String), (self.state["root"]!["radius"] as! Double)]
-                         ).render()
+      let _ = Sphere(name: (self.state["root"]!["name"] as! String),
+                     scene: self,
+                     coord: (self.state["root"]!["coord"] as! Coord),
+                     props: [(self.state["root"]!["tex"] as! String), (self.state["root"]!["radius"] as! Double)]
+                     ).render()
       let s0 = Sphere(name: (self.state["obj0"]!["name"] as! String),
                       scene: self,
                       coord: (self.state["obj0"]!["coord"] as! Coord),
@@ -141,11 +139,15 @@ class SystemSolar: ComponentTopLevel {
                       props: [(self.state["obj7"]!["tex"] as! String), (self.state["obj7"]!["radius"] as! Double)]
                       ).render()
 
-      self.tick(node: [s0 as! Node, s1 as! Node, s2 as! Node, s3 as! Node,
-                       s4 as! Node, s5 as! Node, s6 as! Node, s7 as! Node])
+      // Register to tick()
+      // This allows to call update() like 60 times per second (60FPS)
+      let l = [s0, s1, s2, s3, s4, s5, s6, s7]
+      registerTick(selectorUpdate: {
+        self.update(node: l)
+      })
   }
 
-  func rerender(newState: [String: [String: Any]], node: [Node]) {
+  func rerender(newState: [String: [String: Any]], node: [Any]) {
     Sphere(node: node[0],
            scene: self,
            coord: (self.state["obj0"]!["coord"] as! Coord)
@@ -185,7 +187,7 @@ class SystemSolar: ComponentTopLevel {
 class Sphere {
 
   var name: String?
-  var node: Node?
+  var node: Any?
   var scene: SystemSolar
   var coord: Coord
   var props: [Any]?
@@ -198,7 +200,7 @@ class Sphere {
     self.props = props
   }
 
-  init(node: Node, scene: SystemSolar, coord: Coord) {
+  init(node: Any, scene: SystemSolar, coord: Coord) {
     // scene is the current scene, where to place 3D objects
     self.node = node
     self.scene = scene
