@@ -2,56 +2,6 @@ import Rendery
 import Foundation
 import Glibc
 
-public struct Angles {
-
-  public var deg: Double = 0.0
-  public var rad: Double = 0.0
-
-  public init(deg: Double) {
-    self.deg = deg
-  }
-
-  public init(rad: Double) {
-    self.rad = rad
-  }
-
-  public func degToRad() -> Double {
-    return (deg * (Double.pi/180))
-  }
-
-  public func radToDeg() -> Double {
-    return rad * (180/Double.pi)
-  }
-}
-
-public struct Coord {
-
-  public var polar: (Double, Angles, Angles) = (0.0, Angles(deg: 0.0), Angles(deg: 0.0))
-  public var cart: (Double, Double, Double) = (0.0, 0.0, 0.0)
-
-  public init(polar: (Double, Angles, Angles)) {
-    self.polar = polar
-  }
-
-  public init(cart: (Double, Double, Double)) {
-    self.cart = cart
-  }
-
-  public func polarToCart() -> (Double, Double, Double) {
-    let x = polar.0 * sin(polar.1.deg) * cos(polar.2.deg)
-    let y = polar.0 * sin(polar.1.deg) * sin(polar.2.deg)
-    let z = polar.0 * cos(polar.1.deg)
-    return (x,y,z)
-  }
-
-  // TODO: Convert C2P for 3D coordinates
-  // public func cartToPolar() -> (Double, Angles, Anlges) {
-  //   let r = sqrt(pow(cart.0, 2.0) + pow(cart.1, 2.0))
-  //   let t = Angles(deg: atan(cart.1 / cart.0))
-  //   return (r,t)
-  // }
-}
-
 // Build the Scene related to ComponentTopLevel
 open class ComponentTopLevel: Scene {
   public override init() {

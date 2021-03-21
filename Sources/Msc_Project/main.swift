@@ -33,7 +33,9 @@ class SystemSolar: ComponentTopLevel {
   }
 
   func updatePlanetPos(currentAngle: Angles, revolution: Double) -> Double {
+    //print("3.1:", currentAngle)
     let newAngle = currentAngle.deg+(360/(revolution*50))
+    //print("3.2:", newAngle)
     return (newAngle.truncatingRemainder(dividingBy: 360.0))
   }
 
@@ -50,6 +52,7 @@ class SystemSolar: ComponentTopLevel {
 
   // TODO: def update global state function in bib.swift
   func update(node: [Any]) {
+    //print("1:",(self.state["obj6"]!["coord"] as! Coord))
     self.state = updateState(
       currentState: self.state,
       nextState: ["obj0": ["coord": Coord(polar: ((self.state["obj0"]!["coord"] as! Coord).polar.0,
@@ -86,8 +89,8 @@ class SystemSolar: ComponentTopLevel {
                                                    Angles(deg: (self.state["obj7"]!["coord"] as! Coord).polar.2.deg)))]
                  ]
       )
+    //print("2:",(self.state["obj6"]!["coord"] as! Coord))
 
-    // TODO: then put it in the closure call (see render())
     self.rerender(newState: self.state, node: node)
   }
 
@@ -218,19 +221,28 @@ class Sphere {
 
     // Call predefined convert function for coordinates
     // Users can define their own abstract types
+    // let x = coord.cart.0
+    // let y = coord.cart.1
+    // let z = coord.cart.2
     let x = coord.polarToCart().0
     let y = coord.polarToCart().1
     let z = coord.polarToCart().2
+
     scene.setNodePosition(node: n, x: x, y: y, z: z)
     return n
   }
 
   // Rerender function is called for a mounted component
   func rerender() {
+    // let x = coord.cart.0
+    // let y = coord.cart.1
+    // let z = coord.cart.2
+
     let x = coord.polarToCart().0
     let y = coord.polarToCart().1
     let z = coord.polarToCart().2
     print(x,y,z)
+    //sleep(1)
     scene.setNodePosition(node: node!, x: x, y: y, z: z)
   }
 }
