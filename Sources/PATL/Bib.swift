@@ -9,7 +9,7 @@ open class ComponentTopLevel: Scene {
 
   }
 
-  public func createCamera(farDistance: Double, x: Double, y: Double, z: Double) {
+  public func createCamera(farDistance: Double, x: Double, y: Double, z: Double) -> Node {
     // Define the camera which gives us a view to the scene
     let cameraNode = root.createChild()
     cameraNode.name = "Camera"
@@ -17,6 +17,7 @@ open class ComponentTopLevel: Scene {
     cameraNode.camera?.farDistance = farDistance
     cameraNode.translation = Vector3(x: x, y: y, z: z)
     cameraNode.constraints.append(LookAtConstraint(target: root))
+    return cameraNode
   }
 
   // Set the background color of the scene
