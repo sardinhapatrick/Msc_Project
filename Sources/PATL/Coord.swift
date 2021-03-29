@@ -18,40 +18,18 @@ public struct Coord {
 
   public var polar: (Double, Angles, Angles) {
     get {
-           if (cart.0) >= 0 {
-             return (sqrt(pow(cart.0,2) + pow(cart.1,2) + pow(cart.2,2)),
-             Angles(deg: acos(cart.2 / (sqrt(pow(cart.0,2) + pow(cart.1,2) + pow(cart.2,2))))),
-             Angles(deg: 0.0))
-           } else {
-             return (-sqrt(pow(cart.0,2) + pow(cart.1,2) + pow(cart.2,2)),
-             Angles(deg: acos(cart.2 / (-sqrt(pow(cart.0,2) + pow(cart.1,2) + pow(cart.2,2))))),
-             Angles(deg: 0.0))
-           }
+          var sign: Double
+          switch cart.0 {
+          case let x where x >= 0:
+            sign = 1.0
+          default:
+            sign = -1.0
+          }
+          return (sign*sqrt(pow(cart.0,2) + pow(cart.1,2) + pow(cart.2,2)),
+          Angles(deg: acos(cart.2 / (sign*sqrt(pow(cart.0,2) + pow(cart.1,2) + pow(cart.2,2))))),
+          Angles(deg: 0.0))
         }
 
   }
-
-  // public static func polar(_ value: (Double, Angles, Angles)) -> Coord { Coord(polar: value) }
-  //
-  // public static func cart(_ value: (Double, Double, Double)) -> Coord { Coord(cart: value) }
-  //
-  //
-  // public var polar: (Double, Angles, Angles) = (0.0, Angles(deg: 0.0), Angles(deg: 0.0))
-  // public var cart: (Double, Double, Double) = (0.0, 0.0, 0.0)
-  //
-  // public init(polar: (Double, Angles, Angles)) {
-  //   self.polar = polar
-  // }
-  //
-  // public init(cart: (Double, Double, Double)) {
-  //   self.cart = cart
-  // }
-  //
-  // public func polarToCart() -> (Double, Double, Double) {
-  //   let x = polar.0 * sin(polar.1.deg) * cos(polar.2.deg)
-  //   let y = polar.0 * sin(polar.1.deg) * sin(polar.2.deg)
-  //   let z = polar.0 * cos(polar.1.deg)
-  //   return (x,y,z)
-  // }
-
+  
 }

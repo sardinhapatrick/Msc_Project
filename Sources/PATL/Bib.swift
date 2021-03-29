@@ -91,7 +91,7 @@ public func createScene(name: String, compTL: Scene) {
   // Initialize Rendery's engine.
   guard let window = AppContext.shared.initialize(width: 1500, height: 800, title: name)
     else { fatalError() }
-  //defer { AppContext.shared.clear() } #TODO: bug under linux
+  //defer { AppContext.shared.clear() } #TODO: bug with linux
 
   // Create the game scene and present it in the window's viewport.
   let scene = compTL
