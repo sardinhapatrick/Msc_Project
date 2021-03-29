@@ -9,6 +9,8 @@ class SystemSolar: ComponentTopLevel {
 
   override init() {
     super.init()
+    // Init the camera
+    self.createCamera(farDistance: 5000.0, x: 650.0, y: 90.0, z: 0.0)
     // Define the background color as "#______" or using the Color class developed
     // in Rendery and call setBackgroundColor(colHexa: Color)
     self.setBackgroundColor(colHexa: "#000000")
@@ -235,4 +237,5 @@ class Sphere {
 }
 
 // Entry: Call the highest component
-let _ = createScene(name: "Solar System", compTL: SystemSolar())
+let _ = createScene(name: "Solar System",
+                    compTL: SystemSolar())

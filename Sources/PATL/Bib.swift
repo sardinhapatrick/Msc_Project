@@ -6,12 +6,16 @@ import Glibc
 open class ComponentTopLevel: Scene {
   public override init() {
     super.init()
+
+  }
+
+  public func createCamera(farDistance: Double, x: Double, y: Double, z: Double) {
     // Define the camera which gives us a view to the scene
     let cameraNode = root.createChild()
     cameraNode.name = "Camera"
     cameraNode.camera = Camera()
-    cameraNode.camera?.farDistance = 5000.0
-    cameraNode.translation = Vector3(x: 650.0, y: 90, z: 0.0)
+    cameraNode.camera?.farDistance = farDistance
+    cameraNode.translation = Vector3(x: x, y: y, z: z)
     cameraNode.constraints.append(LookAtConstraint(target: root))
   }
 
