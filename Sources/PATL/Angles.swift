@@ -15,8 +15,12 @@ public struct Angles {
   public var deg: Double
 
   public var rad: Double {
-    get { deg * (Double.pi/180) }
-    set { deg = newValue * (180/Double.pi) }
+    get {
+      return deg * (Double.pi/180)
+    }
+    set {
+      deg = newValue * (180/Double.pi)
+    }
   }
 
   public static func rad(_ value: Double) -> Angles { Angles(rad: value) }

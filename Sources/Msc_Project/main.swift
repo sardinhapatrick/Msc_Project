@@ -29,14 +29,16 @@ class SystemSolar: ComponentTopLevel {
                   "obj6": ["name": "Uranus", "radius": self.sizePlanet(s: solarRadius, p: 25362), "coord": Coord(polar: (self.distPlanet(s: solarRadius, d: 227.10), Angles(deg: 0.0), Angles(deg: 0.0))), "revo": 4660.0, "tex": "/img/uranus_tex.jpg"],
                   "obj7": ["name": "Neptune", "radius": self.sizePlanet(s: solarRadius, p: 24622), "coord": Coord(polar: (self.distPlanet(s: solarRadius, d: 350.50), Angles(deg: 0.0), Angles(deg: 0.0))), "revo": 6225.0, "tex": "/img/neptune_tex.jpg"]
                  ]
+    print("1: \(self.state["obj0"]!["coord"] as! Coord)")
+
     self.render()
   }
 
   func updatePlanetPos(currentAngle: Angles, revolution: Double) -> Double {
-    //print("3.1:", currentAngle)
+    print("a.1:", currentAngle)
     let newAngle = currentAngle.deg+(360/(revolution*50))
-    //print("3.2:", newAngle)
-    return (newAngle.truncatingRemainder(dividingBy: 360.0))
+    print("a.2:", newAngle)
+    return newAngle
   }
 
   // Real planet scale
@@ -50,9 +52,8 @@ class SystemSolar: ComponentTopLevel {
     return -1*(d_m/696340)
   }
 
-  // TODO: def update global state function in bib.swift
   func update(node: [Any]) {
-    //print("1:",(self.state["obj6"]!["coord"] as! Coord))
+    print("3: \(self.state["obj0"]!["coord"] as! Coord)")
     self.state = updateState(
       currentState: self.state,
       nextState: ["obj0": ["coord": Coord(polar: ((self.state["obj0"]!["coord"] as! Coord).polar.0,
@@ -89,13 +90,15 @@ class SystemSolar: ComponentTopLevel {
                                                    Angles(deg: (self.state["obj7"]!["coord"] as! Coord).polar.2.deg)))]
                  ]
       )
-    //print("2:",(self.state["obj6"]!["coord"] as! Coord))
+    print("4_debug: \((self.state["obj0"]!["coord"] as! Coord))")
+    print("4: \((self.state["obj0"]!["coord"] as! Coord).polar)")
 
     self.rerender(newState: self.state, node: node)
   }
 
   // This is RENDER and not RERENDER because it's the first time we render our objetcs
   func render() {
+      print("2: \(self.state["obj0"]!["coord"] as! Coord)")
       let _ = Sphere(name: (self.state["root"]!["name"] as! String),
                      scene: self,
                      coord: (self.state["root"]!["coord"] as! Coord),
@@ -221,12 +224,14 @@ class Sphere {
 
     // Call predefined convert function for coordinates
     // Users can define their own abstract types
-    // let x = coord.cart.0
-    // let y = coord.cart.1
-    // let z = coord.cart.2
-    let x = coord.polarToCart().0
-    let y = coord.polarToCart().1
-    let z = coord.polarToCart().2
+    //
+    // let x = coord.polarToCart().0
+    // let y = coord.polarToCart().1
+    // let z = coord.polarToCart().2
+
+    let x = coord.cart.0
+    let y = coord.cart.1
+    let z = coord.cart.2
 
     scene.setNodePosition(node: n, x: x, y: y, z: z)
     return n
@@ -234,14 +239,16 @@ class Sphere {
 
   // Rerender function is called for a mounted component
   func rerender() {
-    // let x = coord.cart.0
-    // let y = coord.cart.1
-    // let z = coord.cart.2
 
-    let x = coord.polarToCart().0
-    let y = coord.polarToCart().1
-    let z = coord.polarToCart().2
-    print(x,y,z)
+    // let x = coord.polarToCart().0
+    // let y = coord.polarToCart().1
+    // let z = coord.polarToCart().2
+
+    let x = coord.cart.0
+    let y = coord.cart.1
+    let z = coord.cart.2
+
+    //print(x,y,z)
     //sleep(1)
     scene.setNodePosition(node: node!, x: x, y: y, z: z)
   }
