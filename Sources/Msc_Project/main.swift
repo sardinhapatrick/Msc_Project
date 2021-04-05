@@ -97,102 +97,37 @@ class SystemSolar: ComponentTopLevel {
 
   // This is RENDER and not RERENDER because it's the first time we render our objetcs
   func render() {
-      let _ = Sphere(name: (self.state["root"]!["name"] as! String),
+    let sol = Sphere(name: (self.state["root"]!["name"] as! String),
+                   scene: self,
+                   coord: (self.state["root"]!["coord"] as! Coord),
+                   props: [(self.state["root"]!["tex"] as! String), (self.state["root"]!["radius"] as! Double)],
+                   m: self.m
+                   ).render()
+    var l: [Any] = []
+    for planet in 0...7 {
+      let s = Sphere(name: (self.state["obj"+String(planet)]!["name"] as! String),
                      scene: self,
-                     coord: (self.state["root"]!["coord"] as! Coord),
-                     props: [(self.state["root"]!["tex"] as! String), (self.state["root"]!["radius"] as! Double)],
+                     coord: (self.state["obj"+String(planet)]!["coord"] as! Coord),
+                     props: [(self.state["obj"+String(planet)]!["tex"] as! String), (self.state["obj"+String(planet)]!["radius"] as! Double)],
                      m: self.m
-                     ).render()
-      let s0 = Sphere(name: (self.state["obj0"]!["name"] as! String),
-                      scene: self,
-                      coord: (self.state["obj0"]!["coord"] as! Coord),
-                      props: [(self.state["obj0"]!["tex"] as! String), (self.state["obj0"]!["radius"] as! Double)],
-                      m: self.m
-                      ).render() // Call the low level render function
-      let s1 = Sphere(name: (self.state["obj1"]!["name"] as! String),
-                      scene: self,
-                      coord: (self.state["obj1"]!["coord"] as! Coord),
-                      props: [(self.state["obj1"]!["tex"] as! String), (self.state["obj1"]!["radius"] as! Double)],
-                      m: self.m
-                      ).render()
-      let s2 = Sphere(name: (self.state["obj2"]!["name"] as! String),
-                      scene: self,
-                      coord: (self.state["obj2"]!["coord"] as! Coord),
-                      props: [(self.state["obj2"]!["tex"] as! String), (self.state["obj2"]!["radius"] as! Double)],
-                      m: self.m
-                      ).render()
-      let s3 = Sphere(name: (self.state["obj3"]!["name"] as! String),
-                      scene: self,
-                      coord: (self.state["obj3"]!["coord"] as! Coord),
-                      props: [(self.state["obj3"]!["tex"] as! String), (self.state["obj3"]!["radius"] as! Double)],
-                      m: self.m
-                      ).render()
-      let s4 = Sphere(name: (self.state["obj4"]!["name"] as! String),
-                      scene: self,
-                      coord: (self.state["obj4"]!["coord"] as! Coord),
-                      props: [(self.state["obj4"]!["tex"] as! String), (self.state["obj4"]!["radius"] as! Double)],
-                      m: self.m
-                      ).render()
-      let s5 = Sphere(name: (self.state["obj5"]!["name"] as! String),
-                      scene: self,
-                      coord: (self.state["obj5"]!["coord"] as! Coord),
-                      props: [(self.state["obj5"]!["tex"] as! String), (self.state["obj5"]!["radius"] as! Double)],
-                      m: self.m
-                      ).render()
-      let s6 = Sphere(name: (self.state["obj6"]!["name"] as! String),
-                      scene: self,
-                      coord: (self.state["obj6"]!["coord"] as! Coord),
-                      props: [(self.state["obj6"]!["tex"] as! String), (self.state["obj6"]!["radius"] as! Double)],
-                      m: self.m
-                      ).render()
-      let s7 = Sphere(name: (self.state["obj7"]!["name"] as! String),
-                      scene: self,
-                      coord: (self.state["obj7"]!["coord"] as! Coord),
-                      props: [(self.state["obj7"]!["tex"] as! String), (self.state["obj7"]!["radius"] as! Double)],
-                      m: self.m
-                      ).render()
-
-      // Register to tick()
-      // This allows to call update() like 60 times per second (60FPS)
-      let l = [s0, s1, s2, s3, s4, s5, s6, s7]
-      registerTick(selectorUpdate: {
-        self.update(node: l)
-      })
+                     ).render() // Call the low level render function
+      l.append(s)
+    }
+    print(l)
+    // Register to tick()
+    // This allows to call update() like 60 times per second (60FPS)
+    registerTick(selectorUpdate: {
+      self.update(node: l)
+    })
   }
 
   func rerender(newState: [String: [String: Any]], node: [Any]) {
-    Sphere(node: node[0],
-           scene: self,
-           coord: (self.state["obj0"]!["coord"] as! Coord)
-         ).rerender() // Call the low level rerender function
-    Sphere(node: node[1],
-           scene: self,
-           coord: (self.state["obj1"]!["coord"] as! Coord)
-         ).rerender()
-    Sphere(node: node[2],
-           scene: self,
-           coord: (self.state["obj2"]!["coord"] as! Coord)
-         ).rerender()
-    Sphere(node: node[3],
-           scene: self,
-           coord: (self.state["obj3"]!["coord"] as! Coord)
-         ).rerender()
-    Sphere(node: node[4],
-           scene: self,
-           coord: (self.state["obj4"]!["coord"] as! Coord)
-         ).rerender()
-    Sphere(node: node[5],
-           scene: self,
-           coord: (self.state["obj5"]!["coord"] as! Coord)
-         ).rerender()
-    Sphere(node: node[6],
-           scene: self,
-           coord: (self.state["obj6"]!["coord"] as! Coord)
-         ).rerender()
-    Sphere(node: node[7],
-           scene: self,
-           coord: (self.state["obj7"]!["coord"] as! Coord)
-         ).rerender()
+    for i in 0...7 {
+      Sphere(node: node[i],
+             scene: self,
+             coord: (self.state["obj"+String(i)]!["coord"] as! Coord)
+           ).rerender() // Call the low level rerender function
+    }
   }
 }
 
