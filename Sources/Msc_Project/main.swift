@@ -5,8 +5,9 @@ import Glibc
 class SystemSolar: ComponentTopLevel {
 
   var state: [String: [String: Any]] = [:]
-  // Import a cunstom shader
-  let m: Any = importCustomShader(shaderProgram: GLSLPinkShader())
+  // Import cunstom shaders
+  let solarShader = importCustomShader(shaderProgram: GLSLPinkShader())
+
   let solarRadius: Double = 50.0
 
   override init() {
@@ -101,19 +102,17 @@ class SystemSolar: ComponentTopLevel {
                    scene: self,
                    coord: (self.state["root"]!["coord"] as! Coord),
                    props: [(self.state["root"]!["tex"] as! String), (self.state["root"]!["radius"] as! Double)],
-                   m: self.m
+                   m: solarShader
                    ).render()
     var l: [Any] = []
     for planet in 0...7 {
       let s = Sphere(name: (self.state["obj"+String(planet)]!["name"] as! String),
                      scene: self,
                      coord: (self.state["obj"+String(planet)]!["coord"] as! Coord),
-                     props: [(self.state["obj"+String(planet)]!["tex"] as! String), (self.state["obj"+String(planet)]!["radius"] as! Double)],
-                     m: self.m
+                     props: [(self.state["obj"+String(planet)]!["tex"] as! String), (self.state["obj"+String(planet)]!["radius"] as! Double)]
                      ).render() // Call the low level render function
       l.append(s)
     }
-    print(l)
     // Register to tick()
     // This allows to call update() like 60 times per second (60FPS)
     registerTick(selectorUpdate: {
@@ -141,8 +140,15 @@ class Sphere {
   var props: [Any]?
   var m: Any?
 
-  init(name: String, scene: SystemSolar, coord: Coord, props: [Any], m: Any) {
+  init(name: String, scene: SystemSolar, coord: Coord, props: [Any]) {
     // scene is the current scene, where to place 3D objects
+    self.name = name
+    self.scene = scene
+    self.coord = coord
+    self.props = props
+  }
+
+  init(name: String, scene: SystemSolar, coord: Coord, props: [Any], m: Any) {
     self.name = name
     self.scene = scene
     self.coord = coord
@@ -151,7 +157,6 @@ class Sphere {
   }
 
   init(node: Any, scene: SystemSolar, coord: Coord) {
-    // scene is the current scene, where to place 3D objects
     self.node = node
     self.scene = scene
     self.coord = coord
@@ -163,13 +168,16 @@ class Sphere {
     let n = scene.createChildNode(name: self.name!)
     // Call createSphere() to create a sphere in the current scene
 
-    // Create a Sphere with a customShader material:
-    scene.createSphere(node: n, customShader: m, segments: 100, rings: 100, radius: self.props![1] as! Double)
-    // Or not:
-    //scene.createSphere(node: n, segments: 100, rings: 100, radius: self.props![1] as! Double)
+    // Create a Sphere with a customShader material: (customShader can be `nil`)
+    scene.createSphere(node: n, segments: 100, rings: 100, radius: self.props![1] as! Double)
 
-    // Apply a texture from an image
-    scene.applyTexture(node: n, tex: self.props![0] as! String)
+    // Apply a texture from an image (if affected by the default shader) else from a custom shader
+    if (n.name != "Solar") {
+      scene.applyTextureFromImg(node: n, tex: self.props![0] as! String)
+    } else {
+      scene.applyTextureFromShaders(node: n, customShader: m)
+    }
+
 
     // Users can define their own abstract types like Coord given in the lib
     let x = coord.cart.0
@@ -191,5 +199,4 @@ class Sphere {
 }
 
 // Entry: Call the highest component
-let _ = createScene(name: "Solar System",
-                    compTL: SystemSolar())
+let _ = createScene(name: "Solar System", compTL: SystemSolar())

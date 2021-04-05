@@ -33,14 +33,18 @@ open class ComponentTopLevel: Scene {
   }
 
   // Apply the "tex" texture to the node
-  public func applyTexture(node: Node, tex: String) {
-    // TODO: Add different possibles map to add texture
+  public func applyTextureFromImg(node: Node, tex: String) {
     // TODO: Add the different possibles wrapMethod
-    // TODO: Add color for Material() not only texture
-    // TODO: Add shaders for Material() instead of in createSphere() method
     node.model?.materials[0].diffuse = .texture(ImageTexture(image: Image(contentsOfFile: "Sources"+tex)!, wrapMethod: .repeat))
-    //node.model?.materials[0].shader
+
   }
+
+  public func applyTextureFromShaders(node:Node, customShader: Any?) {
+    node.model?.materials[0] = (customShader as! Material)
+  }
+
+  // TODO: Add color for Material() not only texture
+
 
   // Set the position of a node
   public func setNodePosition(node: Any, x: Double, y: Double, z: Double) {
@@ -50,17 +54,11 @@ open class ComponentTopLevel: Scene {
   }
 
   // Define a node as sphere with some properties: (segments, rings, radius)
-  public func createSphere(node: Node, customShader: Any? = nil, segments: Int, rings: Int, radius: Double) {
-    if (customShader != nil) {
-      node.model = Model(
-        meshes: [.sphere(segments: segments, rings: rings, radius: radius)],
-        materials: [customShader as! Material]) // --> Custom shader
-    } else {
-      // By default a new Sphere has (0,0,0) as coordinates
-      node.model = Model(
-        meshes: [.sphere(segments: segments, rings: rings, radius: radius)],
-        materials: [Material()]) // --> Default shader
-    }
+  public func createSphere(node: Node, segments: Int, rings: Int, radius: Double) {
+    // By default a new Sphere has (0,0,0) as coordinates
+    node.model = Model(
+      meshes: [.sphere(segments: segments, rings: rings, radius: radius)],
+      materials: [Material()]) // --> Always create object with the default shader can be changed in applyTextureFromShaders()
   }
 
   public func createBox(node: Node) {
