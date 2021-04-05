@@ -5,6 +5,8 @@ import Glibc
 class SystemSolar: ComponentTopLevel {
 
   var state: [String: [String: Any]] = [:]
+  // Import a cunstom shader
+  let m: Any = importCustomShader(shaderProgram: GLSLPinkShader())
   let solarRadius: Double = 50.0
 
   override init() {
@@ -98,47 +100,56 @@ class SystemSolar: ComponentTopLevel {
       let _ = Sphere(name: (self.state["root"]!["name"] as! String),
                      scene: self,
                      coord: (self.state["root"]!["coord"] as! Coord),
-                     props: [(self.state["root"]!["tex"] as! String), (self.state["root"]!["radius"] as! Double)]
+                     props: [(self.state["root"]!["tex"] as! String), (self.state["root"]!["radius"] as! Double)],
+                     m: self.m
                      ).render()
       let s0 = Sphere(name: (self.state["obj0"]!["name"] as! String),
                       scene: self,
                       coord: (self.state["obj0"]!["coord"] as! Coord),
-                      props: [(self.state["obj0"]!["tex"] as! String), (self.state["obj0"]!["radius"] as! Double)]
+                      props: [(self.state["obj0"]!["tex"] as! String), (self.state["obj0"]!["radius"] as! Double)],
+                      m: self.m
                       ).render() // Call the low level render function
       let s1 = Sphere(name: (self.state["obj1"]!["name"] as! String),
                       scene: self,
                       coord: (self.state["obj1"]!["coord"] as! Coord),
-                      props: [(self.state["obj1"]!["tex"] as! String), (self.state["obj1"]!["radius"] as! Double)]
+                      props: [(self.state["obj1"]!["tex"] as! String), (self.state["obj1"]!["radius"] as! Double)],
+                      m: self.m
                       ).render()
       let s2 = Sphere(name: (self.state["obj2"]!["name"] as! String),
                       scene: self,
                       coord: (self.state["obj2"]!["coord"] as! Coord),
-                      props: [(self.state["obj2"]!["tex"] as! String), (self.state["obj2"]!["radius"] as! Double)]
+                      props: [(self.state["obj2"]!["tex"] as! String), (self.state["obj2"]!["radius"] as! Double)],
+                      m: self.m
                       ).render()
       let s3 = Sphere(name: (self.state["obj3"]!["name"] as! String),
                       scene: self,
                       coord: (self.state["obj3"]!["coord"] as! Coord),
-                      props: [(self.state["obj3"]!["tex"] as! String), (self.state["obj3"]!["radius"] as! Double)]
+                      props: [(self.state["obj3"]!["tex"] as! String), (self.state["obj3"]!["radius"] as! Double)],
+                      m: self.m
                       ).render()
       let s4 = Sphere(name: (self.state["obj4"]!["name"] as! String),
                       scene: self,
                       coord: (self.state["obj4"]!["coord"] as! Coord),
-                      props: [(self.state["obj4"]!["tex"] as! String), (self.state["obj4"]!["radius"] as! Double)]
+                      props: [(self.state["obj4"]!["tex"] as! String), (self.state["obj4"]!["radius"] as! Double)],
+                      m: self.m
                       ).render()
       let s5 = Sphere(name: (self.state["obj5"]!["name"] as! String),
                       scene: self,
                       coord: (self.state["obj5"]!["coord"] as! Coord),
-                      props: [(self.state["obj5"]!["tex"] as! String), (self.state["obj5"]!["radius"] as! Double)]
+                      props: [(self.state["obj5"]!["tex"] as! String), (self.state["obj5"]!["radius"] as! Double)],
+                      m: self.m
                       ).render()
       let s6 = Sphere(name: (self.state["obj6"]!["name"] as! String),
                       scene: self,
                       coord: (self.state["obj6"]!["coord"] as! Coord),
-                      props: [(self.state["obj6"]!["tex"] as! String), (self.state["obj6"]!["radius"] as! Double)]
+                      props: [(self.state["obj6"]!["tex"] as! String), (self.state["obj6"]!["radius"] as! Double)],
+                      m: self.m
                       ).render()
       let s7 = Sphere(name: (self.state["obj7"]!["name"] as! String),
                       scene: self,
                       coord: (self.state["obj7"]!["coord"] as! Coord),
-                      props: [(self.state["obj7"]!["tex"] as! String), (self.state["obj7"]!["radius"] as! Double)]
+                      props: [(self.state["obj7"]!["tex"] as! String), (self.state["obj7"]!["radius"] as! Double)],
+                      m: self.m
                       ).render()
 
       // Register to tick()
@@ -193,13 +204,15 @@ class Sphere {
   var scene: SystemSolar
   var coord: Coord
   var props: [Any]?
+  var m: Any?
 
-  init(name: String, scene: SystemSolar, coord: Coord, props: [Any]) {
+  init(name: String, scene: SystemSolar, coord: Coord, props: [Any], m: Any) {
     // scene is the current scene, where to place 3D objects
     self.name = name
     self.scene = scene
     self.coord = coord
     self.props = props
+    self.m = m
   }
 
   init(node: Any, scene: SystemSolar, coord: Coord) {
@@ -214,7 +227,12 @@ class Sphere {
     // createChildNode() allows to create a child node in the scene (root is the parent node of the scene)
     let n = scene.createChildNode(name: self.name!)
     // Call createSphere() to create a sphere in the current scene
-    scene.createSphere(node: n, segments: 100, rings: 100, radius: self.props![1] as! Double)
+
+    // Create a Sphere with a customShader material:
+    scene.createSphere(node: n, customShader: m, segments: 100, rings: 100, radius: self.props![1] as! Double)
+    // Or not:
+    //scene.createSphere(node: n, segments: 100, rings: 100, radius: self.props![1] as! Double)
+
     // Apply a texture from an image
     scene.applyTexture(node: n, tex: self.props![0] as! String)
 

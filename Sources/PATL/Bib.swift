@@ -37,7 +37,9 @@ open class ComponentTopLevel: Scene {
     // TODO: Add different possibles map to add texture
     // TODO: Add the different possibles wrapMethod
     // TODO: Add color for Material() not only texture
+    // TODO: Add shaders for Material() instead of in createSphere() method
     node.model?.materials[0].diffuse = .texture(ImageTexture(image: Image(contentsOfFile: "Sources"+tex)!, wrapMethod: .repeat))
+    //node.model?.materials[0].shader
   }
 
   // Set the position of a node
@@ -48,11 +50,17 @@ open class ComponentTopLevel: Scene {
   }
 
   // Define a node as sphere with some properties: (segments, rings, radius)
-  public func createSphere(node: Node, segments: Int, rings: Int, radius: Double) {
-    node.model = Model(
-      meshes: [.sphere(segments: segments, rings: rings, radius: radius)],
-      materials: [Material()])
-    // By default a new Sphere has (0,0,0) as coordinates
+  public func createSphere(node: Node, customShader: Any? = nil, segments: Int, rings: Int, radius: Double) {
+    if (customShader != nil) {
+      node.model = Model(
+        meshes: [.sphere(segments: segments, rings: rings, radius: radius)],
+        materials: [customShader as! Material]) // --> Custom shader
+    } else {
+      // By default a new Sphere has (0,0,0) as coordinates
+      node.model = Model(
+        meshes: [.sphere(segments: segments, rings: rings, radius: radius)],
+        materials: [Material()]) // --> Default shader
+    }
   }
 
   public func createBox(node: Node) {
@@ -70,6 +78,12 @@ open class ComponentTopLevel: Scene {
   }
 
   // TODO: Add function to generate other basic mesh
+
+}
+
+public func importCustomShader(shaderProgram: GLSLProgramDelegate) -> Material {
+  let material = Material(program: GLSLProgram(delegate: shaderProgram))
+  return material
 }
 
 public func registerTick(selectorUpdate: @escaping () -> Void) {
