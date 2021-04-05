@@ -7,6 +7,7 @@ class SystemSolar: ComponentTopLevel {
   var state: [String: [String: Any]] = [:]
   // Import cunstom shaders
   let solarShader = importCustomShader(shaderProgram: GLSLPinkShader())
+  let testShader = importCustomShader(shaderProgram: GLSLTestShader())
 
   let solarRadius: Double = 50.0
 
@@ -110,6 +111,7 @@ class SystemSolar: ComponentTopLevel {
                      scene: self,
                      coord: (self.state["obj"+String(planet)]!["coord"] as! Coord),
                      props: [(self.state["obj"+String(planet)]!["tex"] as! String), (self.state["obj"+String(planet)]!["radius"] as! Double)]
+                     //m: testShader
                      ).render() // Call the low level render function
       l.append(s)
     }
