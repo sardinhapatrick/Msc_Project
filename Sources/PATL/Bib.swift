@@ -43,7 +43,7 @@ open class ComponentTopLevel: Scene {
     node.model?.materials[0] = (customShader as! Material)
   }
 
-  // TODO: Add color for Material() not only texture
+  // TODO: Add color for Material() -> applyTextureFromColor()
 
 
   // Set the position of a node
