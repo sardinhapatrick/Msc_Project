@@ -97,8 +97,9 @@ class SystemSolar: ComponentTopLevel {
 
   // This is RENDER and not RERENDER because it's the first time we render our objetcs
   func render() {
-    // Init the camera
+    // When it's the first rendering, we init the camera
     let cam = self.createCamera(farDistance: 5000.0, x: 650.0, y: 90.0, z: 0.0)
+    let camSpeed: Double = 10.0
 
     let sol = Sphere(name: (self.state["root"]!["name"] as! String),
                    scene: self,
@@ -120,19 +121,21 @@ class SystemSolar: ComponentTopLevel {
     // This allows to call update() like 60 times per second (60FPS)
     registerTick(selectorUpdate: {
       self.update(node: l)
+
+      // Solar is @(0.0, 0.0, 0.0) and the camera cannot take negative value for each axes.
+      // To simulate a more realistic behavior here the idea would be to place the sun at central coordinates like (1000.0, 1000.0, 1000.0)
       var e = getKeyEvent()
-      print(e)
-      if (e == "W") {
-        self.setNodePosition(node: cam, x: cam.translation.x, y: cam.translation.y, z:cam.translation.z-10)
-      }
-      if (e == "S") {
-        self.setNodePosition(node: cam, x: cam.translation.x, y: cam.translation.y, z:cam.translation.z+10)
-      }
-      if (e == "A") {
-        self.setNodePosition(node: cam, x: cam.translation.x, y: cam.translation.y+10, z:cam.translation.z)
-      }
-      if (e == "D") {
-        self.setNodePosition(node: cam, x: cam.translation.x, y: cam.translation.y-10, z:cam.translation.z)
+      switch e {
+      case "W":
+          self.setNodePosition(node: cam, x: cam.translation.x + camSpeed, y: cam.translation.y, z:cam.translation.z)
+      case "S":
+          self.setNodePosition(node: cam, x: cam.translation.x - camSpeed, y: cam.translation.y, z:cam.translation.z)
+      case "A":
+          self.setNodePosition(node: cam, x: cam.translation.x, y: cam.translation.y, z:cam.translation.z + camSpeed)
+      case "D":
+          self.setNodePosition(node: cam, x: cam.translation.x, y: cam.translation.y, z:cam.translation.z - camSpeed)
+      default:
+        break
       }
     })
 
