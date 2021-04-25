@@ -94,16 +94,16 @@ public func registerTick(selectorUpdate: @escaping () -> Void) {
 
 public func getKeyEvent() -> String {
   // Directional keys
-  var keyUpPressed = AppContext.shared.inputs.isPressed(key: 265)
-  var keyDownPressed = AppContext.shared.inputs.isPressed(key: 262)
-  var keyLeftPressed = AppContext.shared.inputs.isPressed(key: 263)
-  var keyRightPressed = AppContext.shared.inputs.isPressed(key: 264)
+  let keyUpPressed = AppContext.shared.inputs.isPressed(key: 265)
+  let keyDownPressed = AppContext.shared.inputs.isPressed(key: 264)
+  let keyLeftPressed = AppContext.shared.inputs.isPressed(key: 263)
+  let keyRightPressed = AppContext.shared.inputs.isPressed(key: 262)
 
   // w a s d keys
-  var keyWPressed = AppContext.shared.inputs.isPressed(key: 87)
-  var keySPressed = AppContext.shared.inputs.isPressed(key: 83)
-  var keyAPressed = AppContext.shared.inputs.isPressed(key: 65)
-  var keyDPressed = AppContext.shared.inputs.isPressed(key: 68)
+  let keyWPressed = AppContext.shared.inputs.isPressed(key: 87)
+  let keySPressed = AppContext.shared.inputs.isPressed(key: 83)
+  let keyAPressed = AppContext.shared.inputs.isPressed(key: 65)
+  let keyDPressed = AppContext.shared.inputs.isPressed(key: 68)
 
   if (keyUpPressed || keyWPressed) {
     return "W"
@@ -122,8 +122,8 @@ public func getKeyEvent() -> String {
 
 public func getMouseEvent() -> String {
   // Mouse button
-  var button0Pressed = AppContext.shared.inputs.isPressed(mouseButton: 0)
-  var button1Pressed = AppContext.shared.inputs.isPressed(mouseButton: 1)
+  let button0Pressed = AppContext.shared.inputs.isPressed(mouseButton: 0)
+  let button1Pressed = AppContext.shared.inputs.isPressed(mouseButton: 1)
   if (button0Pressed) {
     return "0"
   }
