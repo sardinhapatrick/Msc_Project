@@ -13,8 +13,6 @@ class SystemSolar: ComponentTopLevel {
 
   override init() {
     super.init()
-    // Init the camera
-    let cam = self.createCamera(farDistance: 5000.0, x: 650.0, y: 90.0, z: 0.0)
 
     // Define the background color as "#______" or using the Color class developed
     // in Rendery and call setBackgroundColor(colHexa: Color)
@@ -99,6 +97,9 @@ class SystemSolar: ComponentTopLevel {
 
   // This is RENDER and not RERENDER because it's the first time we render our objetcs
   func render() {
+    // Init the camera
+    let cam = self.createCamera(farDistance: 5000.0, x: 650.0, y: 90.0, z: 0.0)
+
     let sol = Sphere(name: (self.state["root"]!["name"] as! String),
                    scene: self,
                    coord: (self.state["root"]!["coord"] as! Coord),
@@ -119,7 +120,22 @@ class SystemSolar: ComponentTopLevel {
     // This allows to call update() like 60 times per second (60FPS)
     registerTick(selectorUpdate: {
       self.update(node: l)
+      var e = getKeyEvent()
+      print(e)
+      if (e == "W") {
+        self.setNodePosition(node: cam, x: cam.translation.x, y: cam.translation.y, z:cam.translation.z-10)
+      }
+      if (e == "S") {
+        self.setNodePosition(node: cam, x: cam.translation.x, y: cam.translation.y, z:cam.translation.z+10)
+      }
+      if (e == "A") {
+        self.setNodePosition(node: cam, x: cam.translation.x, y: cam.translation.y+10, z:cam.translation.z)
+      }
+      if (e == "D") {
+        self.setNodePosition(node: cam, x: cam.translation.x, y: cam.translation.y-10, z:cam.translation.z)
+      }
     })
+
   }
 
   func rerender(newState: [String: [String: Any]], node: [Any]) {
@@ -130,6 +146,7 @@ class SystemSolar: ComponentTopLevel {
            ).rerender() // Call the low level rerender function
     }
   }
+
 }
 
 
@@ -166,6 +183,7 @@ class Sphere {
 
   // Render function is called the first time a component is mounted
   func render() -> Any {
+
     // createChildNode() allows to create a child node in the scene (root is the parent node of the scene)
     let n = scene.createChildNode(name: self.name!)
     // Call createSphere() to create a sphere in the current scene

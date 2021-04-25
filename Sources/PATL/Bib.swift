@@ -84,14 +84,55 @@ public func importCustomShader(shaderProgram: GLSLProgramDelegate) -> Material {
   return material
 }
 
+
 public func registerTick(selectorUpdate: @escaping () -> Void) {
   AppContext.shared.subscribe(frameListener: { _, delta in
     selectorUpdate()
-    var keyInput = AppContext.shared.inputs
-    print(AppContext.shared.inputs)
-
   })
 }
+
+
+public func getKeyEvent() -> String {
+  // Directional keys
+  var keyUpPressed = AppContext.shared.inputs.isPressed(key: 265)
+  var keyDownPressed = AppContext.shared.inputs.isPressed(key: 262)
+  var keyLeftPressed = AppContext.shared.inputs.isPressed(key: 263)
+  var keyRightPressed = AppContext.shared.inputs.isPressed(key: 264)
+
+  // w a s d keys
+  var keyWPressed = AppContext.shared.inputs.isPressed(key: 87)
+  var keySPressed = AppContext.shared.inputs.isPressed(key: 83)
+  var keyAPressed = AppContext.shared.inputs.isPressed(key: 65)
+  var keyDPressed = AppContext.shared.inputs.isPressed(key: 68)
+
+  if (keyUpPressed || keyWPressed) {
+    return "W"
+  }
+  if (keyDownPressed || keySPressed) {
+    return "S"
+  }
+  if (keyLeftPressed || keyAPressed) {
+    return "A"
+  }
+  if (keyRightPressed || keyDPressed) {
+    return "D"
+  }
+  return ""
+}
+
+public func getMouseEvent() -> String {
+  // Mouse button
+  var button0Pressed = AppContext.shared.inputs.isPressed(mouseButton: 0)
+  var button1Pressed = AppContext.shared.inputs.isPressed(mouseButton: 1)
+  if (button0Pressed) {
+    return "0"
+  }
+  if (button1Pressed) {
+    return "1"
+  }
+  return ""
+}
+
 
 // Predefined function to update the global state of the application
 public func updateState(currentState: [String: [String: Any]], nextState: [String: [String: Any]]) -> [String: [String: Any]] {
