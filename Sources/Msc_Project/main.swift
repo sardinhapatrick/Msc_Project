@@ -174,7 +174,7 @@ class Sphere {
     scene.createSphere(node: n, segments: 100, rings: 100, radius: self.props![1] as! Double)
 
     // Apply a texture from an image (if affected by the default shader) else from a custom shader
-    if (n.name != "Solar") {
+    if (n.name != "") {
       scene.applyTextureFromImg(node: n, tex: self.props![0] as! String)
     } else {
       scene.applyTextureFromShaders(node: n, customShader: m)

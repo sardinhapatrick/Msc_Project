@@ -87,6 +87,9 @@ public func importCustomShader(shaderProgram: GLSLProgramDelegate) -> Material {
 public func registerTick(selectorUpdate: @escaping () -> Void) {
   AppContext.shared.subscribe(frameListener: { _, delta in
     selectorUpdate()
+    var keyInput = AppContext.shared.inputs
+    print(AppContext.shared.inputs)
+
   })
 }
 
