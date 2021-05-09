@@ -14,6 +14,8 @@ class SystemSolar: ComponentTopLevel {
   override init() {
     super.init()
 
+    test_load_blend()
+
     // Define the background color as "#______" or using the Color class developed
     // in Rendery and call setBackgroundColor(colHexa: Color)
     self.setBackgroundColor(colHexa: "#000000")
@@ -128,9 +130,9 @@ class SystemSolar: ComponentTopLevel {
       //print("Key pressed: ",e)
       switch e {
       case "W":
-          self.setNodePosition(node: cam, x: cam.translation.x + camSpeed, y: cam.translation.y, z:cam.translation.z)
-      case "S":
           self.setNodePosition(node: cam, x: cam.translation.x - camSpeed, y: cam.translation.y, z:cam.translation.z)
+      case "S":
+          self.setNodePosition(node: cam, x: cam.translation.x + camSpeed, y: cam.translation.y, z:cam.translation.z)
       case "A":
           self.setNodePosition(node: cam, x: cam.translation.x, y: cam.translation.y, z:cam.translation.z + camSpeed)
       case "D":
@@ -138,6 +140,9 @@ class SystemSolar: ComponentTopLevel {
       default:
         break
       }
+      // print("x: ", cam.translation.x)
+      // print("y: ", cam.translation.y)
+      // print("z: ", cam.translation.z)
     })
 
   }

@@ -79,6 +79,17 @@ open class ComponentTopLevel: Scene {
 
 }
 
+// https://products.aspose.app/3d/conversion/glb-to-gltf : convert glb to gltf
+public func test_load_gltf() {
+    let t = GLTFFile(contentsOfFile: "Sources/models/a318.gltf")
+    print(t!)
+}
+
+public func test_load_blend() {
+    let t = BlendFile(contentsOfFile: "Sources/models/piper.blend")
+    print(t!)
+}
+
 public func importCustomShader(shaderProgram: GLSLProgramDelegate) -> Material {
   let material = Material(program: GLSLProgram(delegate: shaderProgram))
   return material
