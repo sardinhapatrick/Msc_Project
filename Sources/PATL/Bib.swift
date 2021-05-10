@@ -20,6 +20,15 @@ open class ComponentTopLevel: Scene {
     return cameraNode
   }
 
+  public func createLight(x: Double, y: Double, z: Double) -> Node {
+    let lightNode = root.createChild()
+    lightNode.light = Light(type: .directional)
+    lightNode.light?.isCastingShadow = true
+    lightNode.translation = Vector3(x: x, y: y, z: z)
+    lightNode.constraints.append(LookAtConstraint(target: root))
+    return lightNode
+  }
+
   // Set the background color of the scene
   public func setBackgroundColor(colHexa: Color) {
     backgroundColor = colHexa
@@ -39,12 +48,14 @@ open class ComponentTopLevel: Scene {
 
   }
 
-  public func applyTextureFromShaders(node:Node, customShader: Any?) {
+  public func applyTextureFromShaders(node: Node, customShader: Any?) {
     node.model?.materials[0] = (customShader as! Material)
   }
 
-  // TODO: Add color for Material() -> applyTextureFromColor()
-
+  // TODO: fix me ?
+  public func applyTextureFromColor(node: Node, rgba: (Double, Double, Double, Double)) {
+    node.model?.materials[0].multiply = .color(Color(red: rgba.0, green: rgba.1, blue: rgba.2, alpha: rgba.3))
+  }
 
   // Set the position of a node
   public func setNodePosition(node: Any, x: Double, y: Double, z: Double) {
