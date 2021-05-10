@@ -124,10 +124,7 @@ class SystemSolar: ComponentTopLevel {
     registerTick(selectorUpdate: {
       self.update(node: l)
 
-      // Solar is @(0.0, 0.0, 0.0) and the camera cannot take negative value for each axes.
-      // To simulate a more realistic behavior here the idea would be to place the sun at central coordinates like (1000.0, 1000.0, 1000.0)
       var e = getKeyEvent()
-      //print("Key pressed: ",e)
       switch e {
       case "W":
           self.setNodePosition(node: cam, x: cam.translation.x - camSpeed, y: cam.translation.y, z:cam.translation.z)
@@ -140,9 +137,6 @@ class SystemSolar: ComponentTopLevel {
       default:
         break
       }
-      // print("x: ", cam.translation.x)
-      // print("y: ", cam.translation.y)
-      // print("z: ", cam.translation.z)
     })
 
   }
