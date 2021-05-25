@@ -1,4 +1,0 @@
-take example from :
-https://docs.swift.org/swift-book/GuidedTour/GuidedTour.html
-
-index.html
