@@ -6,7 +6,9 @@ import Glibc
 
 let arguments = CommandLine.arguments
 
-if (arguments[1] == "tutorial") {
+if (arguments.count == 1) {
+  entry_point_tutorial()
+} else if (arguments[1] == "tutorial") {
   entry_point_tutorial()
 } else {
   entry_point_system_solar()
