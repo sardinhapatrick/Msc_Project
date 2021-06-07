@@ -14,8 +14,6 @@ class SystemSolar: ComponentTopLevel {
   override init() {
     super.init()
 
-    test_load_blend()
-
     // Define the background color as "#______" or using the Color class developed
     // in Rendery and call setBackgroundColor(colHexa: Color)
     self.setBackgroundColor(colHexa: "#000000")

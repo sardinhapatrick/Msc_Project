@@ -11,6 +11,8 @@ class Tutorial: ComponentTopLevel {
 
     self.setBackgroundColor(colHexa: "#ffffff")
 
+    loadGLTF()
+
     self.state = ["sphere_obj": ["name": "sphere1",
                                  "coord": Coord(cart: (0,0,0)),
                                  "radius": 50.0]

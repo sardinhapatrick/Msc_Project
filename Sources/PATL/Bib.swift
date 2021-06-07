@@ -70,6 +70,7 @@ open class ComponentTopLevel: Scene {
     node.model = Model(
       meshes: [.sphere(segments: segments, rings: rings, radius: radius)],
       materials: [Material()]) // --> Always create object with the default shader can be changed in applyTextureFromShaders()
+    print(node.model!.name)
   }
 
   public func createBox(node: Node) {
@@ -88,12 +89,17 @@ open class ComponentTopLevel: Scene {
 
   // TODO: Add function to generate other basic mesh
 
-}
 
-// https://products.aspose.app/3d/conversion/glb-to-gltf : convert glb to gltf
-public func test_load_gltf() {
-    let t = GLTFFile(contentsOfFile: "Sources/models/a318.gltf")
-    print(t!)
+  // https://products.aspose.app/3d/conversion/glb-to-gltf : convert glb to gltf
+  public func loadGLTF() {
+      let t = GLTFFile(contentsOfFile: "Sources/models/azeria_bin/source/Fox.glb")
+      // let nnn: Node? = nil
+      // nnn!.model = Model(
+      //   meshes: [t!.models[0].meshes[0]],
+      //   materials: [t!.models[0].materials[0]])
+      //print("laaa:",t!.models[0])
+      print("\n",t!,"\n")
+  }
 }
 
 public func test_load_blend() {
