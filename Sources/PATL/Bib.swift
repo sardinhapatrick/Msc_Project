@@ -92,12 +92,12 @@ open class ComponentTopLevel: Scene {
 
   // https://products.aspose.app/3d/conversion/glb-to-gltf : convert glb to gltf
   public func loadGLTF() {
-      let t = GLTFFile(contentsOfFile: "Sources/models/naruto/scene.gltf")
+      let t = GLTFFile(contentsOfFile: "Sources/models/azeria/scene.gltf")
       // let nnn: Node? = nil
       // nnn!.model = Model(
       //   meshes: [t!.models[0].meshes[0]],
       //   materials: [t!.models[0].materials[0]])
-
+      let tt = t!.models[0].meshes[0]
       //print("\n-->",t!.models,"\n")
       print("\n-->",t!,"\n")
   }
