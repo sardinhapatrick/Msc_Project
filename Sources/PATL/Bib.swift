@@ -94,9 +94,11 @@ open class ComponentTopLevel: Scene {
   public func loadGLTF(node: Node, path: String) {
       print("loadGLTF()\n")
       let gltfValues = GLTFFile(contentsOfFile: path)
-      print("\n-->",gltfValues!,"\n")
-      //print("->",gltfValues!.models)
+      //print("\n-->",gltfValues!,"\n")
+      //print("\n", gltfValues!.models[0], "\n")
 
+      // TODO: create node.model in main.swift - Here only load gltfValues
+      // FIXME: For multi meshes models: loop on models and create a node for each
       node.model = Model(
         meshes: gltfValues!.models[0].meshes,
         materials: [Material()])
