@@ -91,22 +91,18 @@ open class ComponentTopLevel: Scene {
 
 
   // https://products.aspose.app/3d/conversion/glb-to-gltf : convert glb to gltf
-  public func loadGLTF() {
-      let t = GLTFFile(contentsOfFile: "Sources/models/azeria/scene.gltf")
-      // let nnn: Node? = nil
-      // nnn!.model = Model(
-      //   meshes: [t!.models[0].meshes[0]],
-      //   materials: [t!.models[0].materials[0]])
-      let tt = t!.models[0].meshes[0]
-      //print("\n-->",t!.models,"\n")
-      print("\n-->",t!,"\n")
+  public func loadGLTF(node: Node, path: String) {
+      print("loadGLTF()\n")
+      let gltfValues = GLTFFile(contentsOfFile: path)
+      print("\n-->",gltfValues!,"\n")
+      //print("->",gltfValues!.models)
+
+      node.model = Model(
+        meshes: gltfValues!.models[0].meshes,
+        materials: [Material()])
   }
 }
 
-public func test_load_blend() {
-    let t = BlendFile(contentsOfFile: "Sources/models/piper.blend")
-    print(t!)
-}
 
 public func importCustomShader(shaderProgram: GLSLProgramDelegate) -> Material {
   let material = Material(program: GLSLProgram(delegate: shaderProgram))

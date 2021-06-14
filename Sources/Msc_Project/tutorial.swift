@@ -11,8 +11,6 @@ class Tutorial: ComponentTopLevel {
 
     self.setBackgroundColor(colHexa: "#ffffff")
 
-    loadGLTF()
-
     self.state = ["sphere_obj": ["name": "sphere1",
                                  "coord": Coord(cart: (0,0,0)),
                                  "radius": 50.0]
@@ -51,9 +49,14 @@ class SphereObj {
   }
 
   func render() {
-    let n = scene.createChildNode(name: self.name!)
-    scene.createSphere(node: n, segments: 100, rings: 100, radius: self.props![0] as! Double)
-    scene.applyTextureFromImg(node: n, tex: "/img/red_tex.jpg")
+    // let n = scene.createChildNode(name: self.name!)
+    // scene.createSphere(node: n, segments: 100, rings: 100, radius: self.props![0] as! Double)
+    // scene.applyTextureFromImg(node: n, tex: "/img/red_tex.jpg")
+
+    let n2 = scene.createChildNode(name: "gltf_obj")
+    scene.loadGLTF(node: n2, path: "Sources/models/azeria/scene.gltf")
+    //scene.applyTextureFromImg(node: n2, tex: "/img/red_tex.jpg")
+
   }
 
   func rerender() { }
