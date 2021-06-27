@@ -57,6 +57,11 @@ class SphereObj {
     scene.loadGLTF(node: n2, path: "Sources/models/azeria/scene.gltf")
     //scene.applyTextureFromImg(node: n2, tex: "/img/red_tex.jpg")
 
+    // let nn = scene.createChildNode(name: "gltf_obj")
+    // scene.loadGLTF(node: nn, path: "Sources/models/naruto/scene.gltf")
+
+    // let n3 = scene.createChildNode(name: "gltf_obj")
+    // scene.loadGLTF(node: n3, path: "Sources/models/platformer_kit/Models/GLTF format/blockLarge.glb")
   }
 
   func rerender() { }
